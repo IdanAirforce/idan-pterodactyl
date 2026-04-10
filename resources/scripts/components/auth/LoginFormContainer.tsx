@@ -30,14 +30,14 @@ export default forwardRef<HTMLFormElement, Props>(({ title, subtitle, ...props }
         <FlashMessageRender css={tw`mb-3 px-1`} />
         <Form {...props} ref={ref}>
             <div
-                css={tw`relative overflow-hidden w-full grid md:grid-cols-[minmax(180px,240px),1fr] bg-slate-950/85 border border-slate-700/70 shadow-2xl rounded-2xl p-4 md:p-5 backdrop-blur-md`}
+                css={tw`relative overflow-hidden w-full grid md:grid-cols-[minmax(180px,240px),1fr] bg-neutral-900/80 border border-neutral-700/70 shadow-2xl rounded-2xl p-4 md:p-5 backdrop-blur-md`}
             >
                 <div css={tw`absolute inset-0 pointer-events-none`}>
                     <div css={tw`absolute -top-24 -left-16 h-64 w-64 rounded-full bg-blue-500/10 blur-3xl`} />
                     <div css={tw`absolute -bottom-24 -right-14 h-64 w-64 rounded-full bg-indigo-500/10 blur-3xl`} />
                 </div>
                 <div css={tw`relative mb-4 md:mb-0 md:pr-6`}>
-                    <div css={tw`h-full rounded-xl border border-blue-400/20 bg-slate-900/60 p-4 md:p-5`}>
+                    <div css={tw`h-full rounded-xl border border-blue-400/20 bg-neutral-900/60 p-4 md:p-5`}>
                         <h3 css={tw`text-blue-100 text-sm uppercase tracking-[0.18em] font-semibold`}>IdanDev</h3>
                         <p css={tw`mt-3 text-neutral-200 text-lg font-semibold leading-tight`}>Secure Game Hosting Control</p>
                         <p css={tw`mt-2 text-neutral-400 text-xs leading-relaxed`}>

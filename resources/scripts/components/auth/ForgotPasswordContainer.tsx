@@ -72,7 +72,11 @@ export default () => {
             })}
         >
             {({ isSubmitting, setSubmitting, submitForm }) => (
-                <LoginFormContainer title={'Request Password Reset'} css={tw`w-full flex`}>
+                <LoginFormContainer
+                    title={'Reset Access'}
+                    subtitle={'Enter your account email and we will send reset instructions.'}
+                    css={tw`w-full flex`}
+                >
                     <Field
                         light
                         label={'Email'}
@@ -105,7 +109,7 @@ export default () => {
                     <div css={tw`mt-6 text-center`}>
                         <Link
                             to={'/auth/login'}
-                            css={tw`text-xs text-neutral-500 tracking-wide uppercase no-underline hover:text-neutral-700`}
+                            css={tw`text-xs text-neutral-400 tracking-[0.18em] uppercase no-underline hover:text-primary-300`}
                         >
                             Return to Login
                         </Link>

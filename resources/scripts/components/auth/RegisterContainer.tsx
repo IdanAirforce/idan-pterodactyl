@@ -93,7 +93,11 @@ export default () => {
             })}
         >
             {({ isSubmitting, setSubmitting, submitForm }) => (
-                <LoginFormContainer title={'Create an Account'} css={tw`w-full flex`}>
+                <LoginFormContainer
+                    title={'Create Your Panel Account'}
+                    subtitle={'Join your hosting control panel with secure account access.'}
+                    css={tw`w-full flex`}
+                >
                     <Field light type={'text'} label={'Username'} name={'username'} disabled={isSubmitting} />
                     <div css={tw`mt-6`}>
                         <Field light type={'email'} label={'Email'} name={'email'} disabled={isSubmitting} />
@@ -144,7 +148,7 @@ export default () => {
                     <div css={tw`mt-6 text-center`}>
                         <Link
                             to={'/auth/login'}
-                            css={tw`text-xs text-neutral-500 tracking-wide no-underline uppercase hover:text-neutral-600`}
+                            css={tw`text-xs text-neutral-400 tracking-[0.18em] no-underline uppercase hover:text-primary-300`}
                         >
                             Already have an account?
                         </Link>

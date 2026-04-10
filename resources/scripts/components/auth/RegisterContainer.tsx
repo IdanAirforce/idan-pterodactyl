@@ -99,15 +99,15 @@ export default () => {
                     size={'wide'}
                     css={tw`w-full flex`}
                 >
-                    <div css={tw`grid md:grid-cols-2 gap-3`}>
+                    <div css={tw`grid md:grid-cols-2 gap-2 md:gap-3`}>
                         <Field light type={'text'} label={'Username'} name={'username'} disabled={isSubmitting} />
                         <Field light type={'email'} label={'Email'} name={'email'} disabled={isSubmitting} />
                     </div>
-                    <div css={tw`mt-3 grid md:grid-cols-2 gap-3`}>
+                    <div css={tw`mt-2 md:mt-3 grid md:grid-cols-2 gap-2 md:gap-3`}>
                         <Field light type={'text'} label={'First name'} name={'first_name'} disabled={isSubmitting} />
                         <Field light type={'text'} label={'Last name'} name={'last_name'} disabled={isSubmitting} />
                     </div>
-                    <div css={tw`mt-3 grid md:grid-cols-2 gap-3`}>
+                    <div css={tw`mt-2 md:mt-3 grid md:grid-cols-2 gap-2 md:gap-3`}>
                         <Field light type={'password'} label={'Password'} name={'password'} disabled={isSubmitting} />
                         <Field
                             light
@@ -117,7 +117,7 @@ export default () => {
                             disabled={isSubmitting}
                         />
                     </div>
-                    <div css={tw`mt-3`}>
+                    <div css={tw`mt-2 md:mt-3`}>
                         <Button type={'submit'} size={'xlarge'} isLoading={isSubmitting} disabled={isSubmitting}>
                             Register
                         </Button>
@@ -137,10 +137,10 @@ export default () => {
                             }}
                         />
                     )}
-                    <div css={tw`mt-4 text-center`}>
+                    <div css={tw`mt-3 text-center`}>
                         <Link
                             to={'/auth/login'}
-                            css={tw`text-xs text-neutral-400 tracking-[0.18em] no-underline uppercase hover:text-primary-300`}
+                            css={tw`text-xs text-neutral-400 tracking-wider no-underline uppercase hover:text-primary-300`}
                         >
                             Already have an account?
                         </Link>

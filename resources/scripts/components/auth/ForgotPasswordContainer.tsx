@@ -75,6 +75,7 @@ export default () => {
                 <LoginFormContainer
                     title={'Reset Access'}
                     subtitle={'Enter your account email and we will send reset instructions.'}
+                    size={'default'}
                     css={tw`w-full flex`}
                 >
                     <Field
@@ -86,7 +87,7 @@ export default () => {
                         name={'email'}
                         type={'email'}
                     />
-                    <div css={tw`mt-6`}>
+                    <div css={tw`mt-4`}>
                         <Button type={'submit'} size={'xlarge'} disabled={isSubmitting} isLoading={isSubmitting}>
                             Send Email
                         </Button>
@@ -106,7 +107,7 @@ export default () => {
                             }}
                         />
                     )}
-                    <div css={tw`mt-6 text-center`}>
+                    <div css={tw`mt-4 text-center`}>
                         <Link
                             to={'/auth/login'}
                             css={tw`text-xs text-neutral-400 tracking-[0.18em] uppercase no-underline hover:text-primary-300`}

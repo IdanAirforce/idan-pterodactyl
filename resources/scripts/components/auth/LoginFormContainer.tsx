@@ -8,45 +8,89 @@ import tw from 'twin.macro';
 type Props = React.DetailedHTMLProps<React.FormHTMLAttributes<HTMLFormElement>, HTMLFormElement> & {
     title?: string;
     subtitle?: string;
+    size?: 'default' | 'wide';
 };
 
 const Container = styled.div`
-    ${tw`w-full max-w-5xl mx-auto px-4`};
+    ${tw`w-full mx-auto px-4`};
 
     ${breakpoint('md')`
         ${tw`px-6`}
     `};
 `;
 
-export default forwardRef<HTMLFormElement, Props>(({ title, subtitle, ...props }, ref) => (
+const Card = styled.div<{ size: 'default' | 'wide' }>`
+    ${(props) => (props.size === 'wide' ? tw`max-w-3xl` : tw`max-w-xl`)};
+    ${tw`w-full mx-auto relative overflow-hidden rounded-2xl border shadow-2xl p-5 md:p-6 bg-neutral-900`};
+    border-color: rgba(96, 165, 250, 0.25);
+    box-shadow:
+        0 20px 50px rgba(0, 0, 0, 0.45),
+        0 0 0 1px rgba(59, 130, 246, 0.08);
+`;
+
+const FormShell = styled.div`
+    label {
+        color: #e5e7eb;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        font-weight: 600;
+    }
+
+    input {
+        background: #111827 !important;
+        border-color: #374151 !important;
+        color: #f9fafb !important;
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.35);
+    }
+
+    input::placeholder {
+        color: #9ca3af;
+    }
+
+    input:not(:disabled):not(:read-only):focus {
+        border-color: #60a5fa !important;
+        box-shadow:
+            0 0 0 2px rgba(59, 130, 246, 0.32),
+            inset 0 1px 1px rgba(0, 0, 0, 0.2) !important;
+    }
+
+    .input-help {
+        color: #9ca3af;
+    }
+
+    button[type='submit'] {
+        background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
+        border-color: #3b82f6 !important;
+        color: #ffffff !important;
+        font-weight: 700;
+        letter-spacing: 0.03em;
+    }
+
+    button[type='submit']:hover:not(:disabled) {
+        background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
+        border-color: #60a5fa !important;
+    }
+`;
+
+export default forwardRef<HTMLFormElement, Props>(({ title, subtitle, size = 'default', ...props }, ref) => (
     <Container>
-        <div css={tw`text-center mb-6 px-2`}>
-            <p css={tw`inline-flex items-center rounded-full px-3 py-1 text-xs tracking-[0.18em] uppercase text-blue-100 bg-blue-500/10 border border-blue-400/30`}>
+        <div css={tw`text-center mb-5 px-2`}>
+            <p css={tw`inline-flex items-center rounded-full px-3 py-1 text-xs tracking-[0.16em] uppercase text-blue-100 bg-blue-500/10 border border-blue-400/30`}>
                 IdanDev Panel
             </p>
-            {title && <h2 css={tw`mt-3 text-2xl md:text-3xl text-neutral-100 font-semibold`}>{title}</h2>}
-            {subtitle && <p css={tw`mt-2 text-sm text-neutral-400 max-w-lg mx-auto`}>{subtitle}</p>}
+            {title && <h2 css={tw`mt-3 text-2xl md:text-3xl text-neutral-100 font-bold`}>{title}</h2>}
+            {subtitle && <p css={tw`mt-2 text-sm text-neutral-300 max-w-xl mx-auto`}>{subtitle}</p>}
         </div>
-        <FlashMessageRender css={tw`mb-3 px-1`} />
+        <FlashMessageRender css={tw`mb-3 max-w-3xl mx-auto px-1`} />
         <Form {...props} ref={ref}>
-            <div
-                css={tw`relative overflow-hidden w-full grid md:grid-cols-[minmax(180px,240px),1fr] bg-neutral-900/80 border border-neutral-700/70 shadow-2xl rounded-2xl p-4 md:p-5 backdrop-blur-md`}
-            >
+            <Card size={size}>
                 <div css={tw`absolute inset-0 pointer-events-none`}>
-                    <div css={tw`absolute -top-24 -left-16 h-64 w-64 rounded-full bg-blue-500/10 blur-3xl`} />
-                    <div css={tw`absolute -bottom-24 -right-14 h-64 w-64 rounded-full bg-indigo-500/10 blur-3xl`} />
+                    <div css={tw`absolute -top-16 -left-12 h-44 w-44 rounded-full bg-blue-500/20 blur-3xl`} />
+                    <div css={tw`absolute -bottom-16 -right-10 h-44 w-44 rounded-full bg-cyan-500/20 blur-3xl`} />
                 </div>
-                <div css={tw`relative mb-4 md:mb-0 md:pr-6`}>
-                    <div css={tw`h-full rounded-xl border border-blue-400/20 bg-neutral-900/60 p-4 md:p-5`}>
-                        <h3 css={tw`text-blue-100 text-sm uppercase tracking-[0.18em] font-semibold`}>IdanDev</h3>
-                        <p css={tw`mt-3 text-neutral-200 text-lg font-semibold leading-tight`}>Secure Game Hosting Control</p>
-                        <p css={tw`mt-2 text-neutral-400 text-xs leading-relaxed`}>
-                            Access your panel with modern, secure account flows built for fast operations.
-                        </p>
-                    </div>
-                </div>
-                <div css={tw`relative flex-1`}>{props.children}</div>
-            </div>
+                <FormShell css={tw`relative`}>{props.children}</FormShell>
+            </Card>
         </Form>
         <p css={tw`text-center text-neutral-500 text-xs mt-5`}>
             &copy; {new Date().getFullYear()} IdanDev Panel

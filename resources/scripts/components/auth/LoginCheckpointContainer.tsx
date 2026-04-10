@@ -30,9 +30,10 @@ const LoginCheckpointContainer = () => {
         <LoginFormContainer
             title={'Security Checkpoint'}
             subtitle={'Confirm your identity using your authenticator or a recovery code.'}
+            size={'default'}
             css={tw`w-full flex`}
         >
-            <div css={tw`mt-6`}>
+            <div css={tw`mt-4`}>
                 <Field
                     light
                     name={isMissingDevice ? 'recoveryCode' : 'code'}
@@ -47,12 +48,12 @@ const LoginCheckpointContainer = () => {
                     autoFocus
                 />
             </div>
-            <div css={tw`mt-6`}>
+            <div css={tw`mt-4`}>
                 <Button size={'xlarge'} type={'submit'} disabled={isSubmitting} isLoading={isSubmitting}>
                     Continue
                 </Button>
             </div>
-            <div css={tw`mt-6 text-center`}>
+            <div css={tw`mt-4 text-center`}>
                 <span
                     onClick={() => {
                         setFieldValue('code', '');
@@ -64,7 +65,7 @@ const LoginCheckpointContainer = () => {
                     {!isMissingDevice ? "I've Lost My Device" : 'I Have My Device'}
                 </span>
             </div>
-            <div css={tw`mt-6 text-center`}>
+            <div css={tw`mt-4 text-center`}>
                 <Link
                     to={'/auth/login'}
                     css={tw`text-xs text-neutral-400 tracking-[0.18em] uppercase no-underline hover:text-primary-300`}

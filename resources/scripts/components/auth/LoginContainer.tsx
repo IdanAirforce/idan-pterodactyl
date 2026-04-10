@@ -77,13 +77,14 @@ const LoginContainer = ({ history }: RouteComponentProps) => {
                 <LoginFormContainer
                     title={'Welcome Back'}
                     subtitle={'Sign in to manage servers, allocations, and account settings.'}
+                    size={'default'}
                     css={tw`w-full flex`}
                 >
                     <Field light type={'text'} label={'Username or Email'} name={'username'} disabled={isSubmitting} />
-                    <div css={tw`mt-6`}>
+                    <div css={tw`mt-4`}>
                         <Field light type={'password'} label={'Password'} name={'password'} disabled={isSubmitting} />
                     </div>
-                    <div css={tw`mt-6`}>
+                    <div css={tw`mt-4`}>
                         <Button type={'submit'} size={'xlarge'} isLoading={isSubmitting} disabled={isSubmitting}>
                             Login
                         </Button>
@@ -103,7 +104,7 @@ const LoginContainer = ({ history }: RouteComponentProps) => {
                             }}
                         />
                     )}
-                    <div css={tw`mt-6 text-center space-y-3`}>
+                    <div css={tw`mt-4 text-center space-y-2`}>
                         <div>
                             <Link
                                 to={'/auth/register'}

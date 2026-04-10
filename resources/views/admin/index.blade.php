@@ -5,7 +5,7 @@
 @endsection
 
 @section('content-header')
-    <h1>Administrative Overview<small>A quick glance at your system.</small></h1>
+    <h1>Administrative OverviewTestgit<small>A quick glance at your system.</small></h1>
     <ol class="breadcrumb">
         <li><a href="{{ route('admin.index') }}">Admin</a></li>
         <li class="active">Index</li>

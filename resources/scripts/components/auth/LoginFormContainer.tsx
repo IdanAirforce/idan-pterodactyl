@@ -18,34 +18,66 @@ const Container = styled.div`
     `};
 `;
 
+const AuthFormShell = styled.div`
+    label {
+        ${tw`text-neutral-100 text-xs uppercase tracking-wide font-medium`};
+    }
+
+    input {
+        ${tw`bg-neutral-800 border-neutral-600 text-neutral-100 shadow-inner`};
+    }
+
+    input::placeholder {
+        ${tw`text-neutral-400`};
+    }
+
+    input:not(:disabled):not(:read-only):focus {
+        ${tw`border-blue-400 ring-2 ring-blue-500 ring-opacity-50`};
+    }
+
+    .input-help {
+        ${tw`text-neutral-300`};
+    }
+
+    button[type='submit'] {
+        ${tw`bg-primary-500 border-primary-400 text-white font-semibold shadow-lg`};
+    }
+
+    button[type='submit']:hover:not(:disabled) {
+        ${tw`bg-blue-500 border-blue-400`};
+    }
+`;
+
 export default forwardRef<HTMLFormElement, Props>(({ title, subtitle, ...props }, ref) => (
     <Container>
-        <div css={tw`text-center mb-6 px-2`}>
-            <p css={tw`inline-flex items-center rounded-full px-3 py-1 text-xs tracking-[0.18em] uppercase text-blue-100 bg-blue-500/10 border border-blue-400/30`}>
+        <div css={tw`text-center mb-5 px-2`}>
+            <p css={tw`inline-flex items-center rounded-full px-3 py-1 text-xs tracking-wider uppercase text-blue-100 bg-blue-500/10 border border-blue-400/30`}>
                 IdanDev Panel
             </p>
-            {title && <h2 css={tw`mt-3 text-2xl md:text-3xl text-neutral-100 font-semibold`}>{title}</h2>}
-            {subtitle && <p css={tw`mt-2 text-sm text-neutral-400 max-w-lg mx-auto`}>{subtitle}</p>}
+            {title && <h2 css={tw`mt-3 text-3xl md:text-4xl text-neutral-100 font-bold`}>{title}</h2>}
+            {subtitle && <p css={tw`mt-2 text-sm text-neutral-300 max-w-xl mx-auto`}>{subtitle}</p>}
         </div>
         <FlashMessageRender css={tw`mb-3 px-1`} />
         <Form {...props} ref={ref}>
             <div
-                css={tw`relative overflow-hidden w-full grid md:grid-cols-[minmax(180px,240px),1fr] bg-neutral-900/80 border border-neutral-700/70 shadow-2xl rounded-2xl p-4 md:p-5 backdrop-blur-md`}
+                css={tw`relative overflow-hidden w-full grid md:grid-cols-[minmax(190px,250px),1fr] bg-neutral-900/90 border border-blue-400/20 shadow-2xl rounded-2xl p-4 md:p-5 backdrop-blur-md`}
             >
                 <div css={tw`absolute inset-0 pointer-events-none`}>
-                    <div css={tw`absolute -top-24 -left-16 h-64 w-64 rounded-full bg-blue-500/10 blur-3xl`} />
-                    <div css={tw`absolute -bottom-24 -right-14 h-64 w-64 rounded-full bg-indigo-500/10 blur-3xl`} />
+                    <div css={tw`absolute -top-20 -left-12 h-56 w-56 rounded-full bg-blue-500/20 blur-3xl`} />
+                    <div css={tw`absolute -bottom-20 -right-12 h-56 w-56 rounded-full bg-cyan-500/20 blur-3xl`} />
                 </div>
                 <div css={tw`relative mb-4 md:mb-0 md:pr-6`}>
-                    <div css={tw`h-full rounded-xl border border-blue-400/20 bg-neutral-900/60 p-4 md:p-5`}>
-                        <h3 css={tw`text-blue-100 text-sm uppercase tracking-[0.18em] font-semibold`}>IdanDev</h3>
-                        <p css={tw`mt-3 text-neutral-200 text-lg font-semibold leading-tight`}>Secure Game Hosting Control</p>
-                        <p css={tw`mt-2 text-neutral-400 text-xs leading-relaxed`}>
-                            Access your panel with modern, secure account flows built for fast operations.
+                    <div css={tw`h-full rounded-xl border border-blue-400/20 bg-neutral-800/70 p-4 md:p-5`}>
+                        <h3 css={tw`text-blue-100 text-xs uppercase tracking-widest font-semibold`}>IdanDev</h3>
+                        <p css={tw`mt-2 text-neutral-100 text-lg font-semibold leading-tight`}>Premium Control Access</p>
+                        <p css={tw`mt-2 text-neutral-300 text-xs leading-relaxed`}>
+                            Fast, secure authentication for your hosting operations.
                         </p>
                     </div>
                 </div>
-                <div css={tw`relative flex-1`}>{props.children}</div>
+                <AuthFormShell css={tw`relative flex-1`}>
+                    {props.children}
+                </AuthFormShell>
             </div>
         </Form>
         <p css={tw`text-center text-neutral-500 text-xs mt-5`}>

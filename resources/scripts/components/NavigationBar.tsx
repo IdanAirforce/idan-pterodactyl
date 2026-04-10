@@ -17,24 +17,23 @@ const RightNavigation = styled.div`
     & > a,
     & > button,
     & > .navigation-link {
-        ${tw`flex items-center h-10 no-underline text-neutral-300 px-3 cursor-pointer transition-all duration-150 rounded-lg border border-transparent`};
+        ${tw`flex items-center h-full no-underline text-neutral-300 px-6 cursor-pointer transition-all duration-150`};
 
         &:active,
         &:hover {
-            ${tw`text-white bg-neutral-800 border-blue-400/20`};
+            ${tw`text-neutral-100 bg-black`};
         }
 
         &:active,
         &:hover,
         &.active {
-            box-shadow:
-                inset 0 -2px ${theme`colors.blue.400`.toString()},
-                0 0 0 1px rgba(59, 130, 246, 0.22);
+            box-shadow: inset 0 -2px ${theme`colors.cyan.600`.toString()};
         }
     }
 `;
 
 export default () => {
+    const name = useStoreState((state: ApplicationStore) => state.settings.data!.name);
     const rootAdmin = useStoreState((state: ApplicationStore) => state.user.data!.rootAdmin);
     const [isLoggingOut, setIsLoggingOut] = useState(false);
 
@@ -47,28 +46,21 @@ export default () => {
     };
 
     return (
-        <div className={'w-full bg-neutral-900 border-b border-blue-400/20 shadow-xl overflow-x-auto'}>
+        <div className={'w-full bg-neutral-900 shadow-md overflow-x-auto'}>
             <SpinnerOverlay visible={isLoggingOut} />
-            <div className={'mx-auto w-full flex items-center h-14 max-w-[1360px] px-3'}>
+            <div className={'mx-auto w-full flex items-center h-[3.5rem] max-w-[1200px]'}>
                 <div id={'logo'} className={'flex-1'}>
                     <Link
                         to={'/'}
                         className={
-                            'inline-flex items-center px-2 no-underline'
+                            'text-2xl font-header font-medium px-4 no-underline text-neutral-200 hover:text-neutral-100 transition-colors duration-150'
                         }
                     >
-                        <span className={'text-[10px] uppercase tracking-wider text-blue-200 bg-blue-500/10 border border-blue-400/30 px-2 py-1 rounded-md mr-2'}>
-                            IdanDev
-                        </span>
-                        <span className={'text-lg font-header font-semibold text-neutral-100 hover:text-white transition-colors duration-150'}>
-                            Panel
-                        </span>
+                        {name}
                     </Link>
                 </div>
-                <RightNavigation className={'flex h-full items-center justify-center gap-1'}>
-                    <div className={'hidden lg:block mr-1'}>
-                        <SearchContainer />
-                    </div>
+                <RightNavigation className={'flex h-full items-center justify-center'}>
+                    <SearchContainer />
                     <Tooltip placement={'bottom'} content={'Dashboard'}>
                         <NavLink to={'/'} exact>
                             <FontAwesomeIcon icon={faLayerGroup} />

@@ -98,25 +98,16 @@ export default () => {
                     subtitle={'Join your hosting control panel with secure account access.'}
                     css={tw`w-full flex`}
                 >
-                    <Field light type={'text'} label={'Username'} name={'username'} disabled={isSubmitting} />
-                    <div css={tw`mt-6`}>
+                    <div css={tw`grid md:grid-cols-2 gap-3`}>
+                        <Field light type={'text'} label={'Username'} name={'username'} disabled={isSubmitting} />
                         <Field light type={'email'} label={'Email'} name={'email'} disabled={isSubmitting} />
                     </div>
-                    <div css={tw`mt-6 space-y-6 md:space-y-0 md:grid md:grid-cols-2 md:gap-4`}>
+                    <div css={tw`mt-3 grid md:grid-cols-2 gap-3`}>
                         <Field light type={'text'} label={'First name'} name={'first_name'} disabled={isSubmitting} />
                         <Field light type={'text'} label={'Last name'} name={'last_name'} disabled={isSubmitting} />
                     </div>
-                    <div css={tw`mt-6`}>
-                        <Field
-                            light
-                            type={'password'}
-                            label={'Password'}
-                            name={'password'}
-                            disabled={isSubmitting}
-                            description={'Use at least 8 characters.'}
-                        />
-                    </div>
-                    <div css={tw`mt-6`}>
+                    <div css={tw`mt-3 grid md:grid-cols-2 gap-3`}>
+                        <Field light type={'password'} label={'Password'} name={'password'} disabled={isSubmitting} />
                         <Field
                             light
                             type={'password'}
@@ -125,7 +116,7 @@ export default () => {
                             disabled={isSubmitting}
                         />
                     </div>
-                    <div css={tw`mt-6`}>
+                    <div css={tw`mt-3`}>
                         <Button type={'submit'} size={'xlarge'} isLoading={isSubmitting} disabled={isSubmitting}>
                             Register
                         </Button>
@@ -145,7 +136,7 @@ export default () => {
                             }}
                         />
                     )}
-                    <div css={tw`mt-6 text-center`}>
+                    <div css={tw`mt-4 text-center`}>
                         <Link
                             to={'/auth/login'}
                             css={tw`text-xs text-neutral-400 tracking-[0.18em] no-underline uppercase hover:text-primary-300`}

@@ -54,9 +54,15 @@ export default () => {
 
     return (
         <PageContentBlock title={'Dashboard'} showFlashKey={'dashboard'}>
+            <div css={tw`mb-5`}>
+                <h1 css={tw`text-2xl md:text-3xl font-bold text-neutral-100`}>Infrastructure Dashboard</h1>
+                <p css={tw`mt-1 text-sm text-neutral-400`}>
+                    Manage your servers with real-time resource visibility and quick access controls.
+                </p>
+            </div>
             {rootAdmin && (
-                <div css={tw`mb-2 flex justify-end items-center`}>
-                    <p css={tw`uppercase text-xs text-neutral-400 mr-2`}>
+                <div css={tw`mb-4 flex justify-end items-center bg-neutral-900 border border-blue-400/20 rounded-lg px-3 py-2`}>
+                    <p css={tw`uppercase text-xs tracking-wider text-neutral-400 mr-2`}>
                         {showOnlyAdmin ? "Showing others' servers" : 'Showing your servers'}
                     </p>
                     <Switch
@@ -73,10 +79,10 @@ export default () => {
                     {({ items }) =>
                         items.length > 0 ? (
                             items.map((server, index) => (
-                                <ServerRow key={server.uuid} server={server} css={index > 0 ? tw`mt-2` : undefined} />
+                                <ServerRow key={server.uuid} server={server} css={index > 0 ? tw`mt-3` : undefined} />
                             ))
                         ) : (
-                            <p css={tw`text-center text-sm text-neutral-400`}>
+                            <p css={tw`text-center text-sm text-neutral-400 bg-neutral-900 border border-blue-400/20 rounded-lg p-6`}>
                                 {showOnlyAdmin
                                     ? 'There are no other servers to display.'
                                     : 'There are no servers associated with your account.'}

@@ -35,3 +35,13 @@ resources/lang/locales.js
 /public/build
 /public/hot
 result
+
+/storage/logs/*
+!/storage/logs/.gitignore
+
+/storage/app/*
+!/storage/app/.gitignore
+!/storage/app/public/.gitignore
+!/storage/app/private/.gitignore
+
+/bootstrap/cache/*.php

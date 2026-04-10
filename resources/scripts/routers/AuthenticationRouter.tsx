@@ -14,11 +14,7 @@ export default () => {
     const { path } = useRouteMatch();
 
     return (
-        <div className={'relative min-h-screen flex items-center py-4 md:py-6 bg-neutral-900 overflow-hidden'}>
-            <div className={'absolute inset-0 pointer-events-none'}>
-                <div className={'absolute -top-24 -left-24 w-96 h-96 rounded-full bg-primary-500 opacity-20 blur-3xl'} />
-                <div className={'absolute -bottom-24 -right-24 w-96 h-96 rounded-full bg-cyan-500 opacity-20 blur-3xl'} />
-            </div>
+        <div className={'min-h-screen flex items-center py-4 md:py-6'}>
             <Switch location={location}>
                 <Route path={`${path}/login`} component={LoginContainer} exact />
                 <Route path={`${path}/register`} component={RegisterContainer} exact />

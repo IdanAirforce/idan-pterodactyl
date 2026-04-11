@@ -65,7 +65,6 @@ export default ({ match, location }: RouteComponentProps<{ token: string }>) => 
                     title={'Set a New Password'}
                     subtitle={'Choose a strong password to secure your panel account.'}
                     size={'default'}
-                    css={tw`w-full flex`}
                 >
                     <div>
                         <label>Email</label>

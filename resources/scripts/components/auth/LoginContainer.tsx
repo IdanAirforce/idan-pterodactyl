@@ -79,7 +79,6 @@ const LoginContainer = ({ history }: RouteComponentProps) => {
                     title={'Welcome Back'}
                     subtitle={'Sign in to manage servers, allocations, and account settings.'}
                     size={'default'}
-                    css={tw`w-full flex`}
                 >
                     <Field light type={'text'} label={'Username or Email'} name={'username'} disabled={isSubmitting} />
                     <div css={tw`mt-3`}>
@@ -107,23 +106,24 @@ const LoginContainer = ({ history }: RouteComponentProps) => {
                             />
                         </AuthRecaptchaPortal>
                     )}
-                    <div css={tw`mt-5 text-center space-y-2`}>
-                        <div>
-                            <Link
-                                to={'/auth/register'}
-                                css={tw`text-xs text-neutral-400 tracking-wider no-underline uppercase hover:text-primary-300`}
-                            >
-                                Create an account
-                            </Link>
-                        </div>
-                        <div>
-                            <Link
-                                to={'/auth/password'}
-                                css={tw`text-xs text-neutral-400 tracking-wider no-underline uppercase hover:text-primary-300`}
-                            >
-                                Forgot password?
-                            </Link>
-                        </div>
+                    <div
+                        css={tw`mt-5 flex flex-row flex-wrap items-center justify-center gap-x-2 sm:gap-x-4 gap-y-1 text-center`}
+                    >
+                        <Link
+                            to={'/auth/register'}
+                            css={tw`text-xs text-neutral-400 tracking-wider no-underline uppercase hover:text-primary-300`}
+                        >
+                            Create an account
+                        </Link>
+                        <span css={tw`text-neutral-600 select-none`} aria-hidden>
+                            |
+                        </span>
+                        <Link
+                            to={'/auth/password'}
+                            css={tw`text-xs text-neutral-400 tracking-wider no-underline uppercase hover:text-primary-300`}
+                        >
+                            Forgot password?
+                        </Link>
                     </div>
                 </LoginFormContainer>
             )}

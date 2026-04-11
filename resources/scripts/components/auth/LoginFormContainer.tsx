@@ -23,6 +23,8 @@ const Container = styled.div`
 const Card = styled.div<{ $wide: boolean }>`
     width: 100%;
     max-width: ${(p: { $wide: boolean }) => (p.$wide ? '42rem' : '26rem')};
+    margin-left: auto;
+    margin-right: auto;
     position: relative;
     overflow: hidden;
     border-radius: 14px;
@@ -142,27 +144,29 @@ const FormShell = styled.div`
     }
 `;
 
-export default forwardRef<HTMLFormElement, Props>(({ title, subtitle, size = 'default', ...props }, ref) => (
-    <Container>
-        <div css={tw`text-center mb-5 px-1 max-w-md`}>
-            <p
-                css={tw`inline-flex items-center rounded-md px-2.5 py-1 text-2xs font-semibold tracking-widest uppercase text-primary-200 bg-primary-500/10 border border-primary-500/20`}
-            >
-                IdanDev
+export default forwardRef<HTMLFormElement, Props>(({ title, subtitle, size = 'default', ...props }, ref) => {
+    const { css: formCss, ...formRest } = props as Props & { css?: object };
+    const formLayoutCss = formCss ? [tw`w-full flex flex-col items-center`, formCss] : tw`w-full flex flex-col items-center`;
+
+    return (
+        <Container>
+            <div css={tw`w-full flex flex-col items-center text-center mb-5 px-1`}>
+                {title && (
+                    <h2 css={tw`text-xl sm:text-2xl text-neutral-100 font-semibold tracking-tight`}>{title}</h2>
+                )}
+                {subtitle && (
+                    <p css={tw`mt-2 text-sm text-neutral-400 leading-relaxed max-w-sm mx-auto`}>{subtitle}</p>
+                )}
+            </div>
+            <FlashMessageRender css={tw`mb-4 w-full max-w-2xl mx-auto`} />
+            <Form {...formRest} ref={ref} css={formLayoutCss}>
+                <Card $wide={size === 'wide'}>
+                    <FormShell css={tw`relative`}>{props.children}</FormShell>
+                </Card>
+            </Form>
+            <p css={tw`text-center text-neutral-600 text-2xs mt-6 tracking-wide w-full`}>
+                &copy; {new Date().getFullYear()} IdanDev Panel
             </p>
-            {title && (
-                <h2 css={tw`mt-4 text-xl sm:text-2xl text-neutral-100 font-semibold tracking-tight`}>{title}</h2>
-            )}
-            {subtitle && <p css={tw`mt-2 text-sm text-neutral-400 leading-relaxed max-w-sm mx-auto`}>{subtitle}</p>}
-        </div>
-        <FlashMessageRender css={tw`mb-4 w-full max-w-2xl`} />
-        <Form {...props} ref={ref}>
-            <Card $wide={size === 'wide'}>
-                <FormShell css={tw`relative`}>{props.children}</FormShell>
-            </Card>
-        </Form>
-        <p css={tw`text-center text-neutral-600 text-2xs mt-6 tracking-wide`}>
-            &copy; {new Date().getFullYear()} IdanDev Panel
-        </p>
-    </Container>
-));
+        </Container>
+    );
+});

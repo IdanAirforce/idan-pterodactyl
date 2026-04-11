@@ -98,7 +98,6 @@ export default () => {
                     title={'Create Your Panel Account'}
                     subtitle={'Join your hosting control panel with secure account access.'}
                     size={'wide'}
-                    css={tw`w-full flex`}
                 >
                     <div css={tw`grid md:grid-cols-2 gap-2 md:gap-3`}>
                         <Field light type={'text'} label={'Username'} name={'username'} disabled={isSubmitting} />

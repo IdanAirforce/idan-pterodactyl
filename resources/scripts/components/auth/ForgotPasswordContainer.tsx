@@ -77,7 +77,6 @@ export default () => {
                     title={'Reset Access'}
                     subtitle={'Enter your account email and we will send reset instructions.'}
                     size={'default'}
-                    css={tw`w-full flex`}
                 >
                     <Field
                         light

@@ -31,7 +31,6 @@ const LoginCheckpointContainer = () => {
             title={'Security Checkpoint'}
             subtitle={'Confirm your identity using your authenticator or a recovery code.'}
             size={'default'}
-            css={tw`w-full flex`}
         >
             <div css={tw`mt-1`}>
                 <Field

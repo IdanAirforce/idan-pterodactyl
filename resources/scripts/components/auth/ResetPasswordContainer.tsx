@@ -39,7 +39,7 @@ export default ({ match, location }: RouteComponentProps<{ token: string }>) => 
                 console.error(error);
 
                 setSubmitting(false);
-                addFlash({ type: 'error', title: 'Error', message: httpErrorToHuman(error) });
+                addFlash({ type: 'error', title: 'שגיאה', message: httpErrorToHuman(error) });
             });
     };
 
@@ -52,47 +52,44 @@ export default ({ match, location }: RouteComponentProps<{ token: string }>) => 
             }}
             validationSchema={object().shape({
                 password: string()
-                    .required('A new password is required.')
-                    .min(8, 'Your new password should be at least 8 characters in length.'),
+                    .required('נדרשת סיסמה חדשה.')
+                    .min(8, 'הסיסמה החדשה חייבת לכלול לפחות 8 תווים.'),
                 passwordConfirmation: string()
-                    .required('Your new password does not match.')
+                    .required('נא לאמת את הסיסמה החדשה.')
                     // @ts-expect-error this is valid
-                    .oneOf([ref('password'), null], 'Your new password does not match.'),
+                    .oneOf([ref('password'), null], 'הסיסמאות אינן תואמות.'),
             })}
         >
             {({ isSubmitting }) => (
                 <LoginFormContainer
-                    title={'Set a New Password'}
-                    subtitle={'Choose a strong password to secure your panel account.'}
+                    title={'הגדרת סיסמה חדשה'}
+                    subtitle={'הזן סיסמה חדשה לחשבון שלך.'}
                     size={'default'}
                 >
                     <div>
-                        <label>Email</label>
+                        <label>אימייל</label>
                         <Input value={email} isLight disabled />
                     </div>
                     <div css={tw`mt-3`}>
                         <Field
                             light
-                            label={'New Password'}
+                            label={'סיסמה חדשה'}
                             name={'password'}
                             type={'password'}
-                            description={'Passwords must be at least 8 characters in length.'}
+                            description={'הסיסמה חייבת לכלול לפחות 8 תווים.'}
                         />
                     </div>
                     <div css={tw`mt-3`}>
-                        <Field light label={'Confirm New Password'} name={'passwordConfirmation'} type={'password'} />
+                        <Field light label={'אימות סיסמה חדשה'} name={'passwordConfirmation'} type={'password'} />
                     </div>
                     <div css={tw`mt-5`}>
                         <Button size={'xlarge'} type={'submit'} disabled={isSubmitting} isLoading={isSubmitting}>
-                            Reset Password
+                            שמירת סיסמה חדשה
                         </Button>
                     </div>
                     <div css={tw`mt-5 text-center`}>
-                        <Link
-                            to={'/auth/login'}
-                            css={tw`text-xs text-neutral-400 tracking-wider no-underline uppercase hover:text-primary-300`}
-                        >
-                            Return to Login
+                        <Link to={'/auth/login'} css={tw`text-xs text-neutral-400 no-underline hover:text-primary-300`}>
+                            חזרה להתחברות
                         </Link>
                     </div>
                 </LoginFormContainer>

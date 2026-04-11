@@ -48,14 +48,17 @@ const FormShell = styled.div`
     label {
         display: block;
         margin-bottom: 0.4rem;
-        font-size: 0.6875rem;
+        font-size: 0.8125rem;
         font-weight: 600;
-        letter-spacing: 0.11em;
-        text-transform: uppercase;
+        letter-spacing: 0;
+        text-transform: none;
         color: #a1a1aa !important;
+        text-align: right;
     }
 
     input:not([type='checkbox']):not([type='radio']) {
+        direction: ltr;
+        text-align: left;
         background: #060709 !important;
         border: 1px solid rgba(63, 63, 70, 0.85) !important;
         border-radius: 9px !important;
@@ -97,6 +100,7 @@ const FormShell = styled.div`
         font-size: 0.75rem;
         line-height: 1.35;
         color: #71717a;
+        text-align: right;
     }
 
     .input-help.error {
@@ -111,10 +115,10 @@ const FormShell = styled.div`
         border: 1px solid rgba(96, 165, 250, 0.35) !important;
         background: linear-gradient(180deg, #2563eb 0%, #1d4ed8 55%, #1e40af 100%) !important;
         color: #ffffff !important;
-        font-size: 0.8125rem !important;
+        font-size: 0.875rem !important;
         font-weight: 650 !important;
-        letter-spacing: 0.08em !important;
-        text-transform: uppercase !important;
+        letter-spacing: 0 !important;
+        text-transform: none !important;
         box-shadow:
             0 1px 0 rgba(255, 255, 255, 0.12) inset,
             0 10px 28px rgba(37, 99, 235, 0.28) !important;
@@ -152,10 +156,12 @@ export default forwardRef<HTMLFormElement, Props>(({ title, subtitle, size = 'de
         <Container>
             <div css={tw`w-full flex flex-col items-center text-center mb-5 px-1`}>
                 {title && (
-                    <h2 css={tw`text-xl sm:text-2xl text-neutral-100 font-semibold tracking-tight`}>{title}</h2>
+                    <h2 css={tw`text-xl sm:text-2xl text-neutral-100 font-semibold tracking-tight leading-snug`}>
+                        {title}
+                    </h2>
                 )}
                 {subtitle && (
-                    <p css={tw`mt-2 text-sm text-neutral-400 leading-relaxed max-w-sm mx-auto`}>{subtitle}</p>
+                    <p css={tw`mt-2 text-sm text-neutral-400 leading-relaxed max-w-md mx-auto`}>{subtitle}</p>
                 )}
             </div>
             <FlashMessageRender css={tw`mb-4 w-full max-w-2xl mx-auto`} />
@@ -164,8 +170,8 @@ export default forwardRef<HTMLFormElement, Props>(({ title, subtitle, size = 'de
                     <FormShell css={tw`relative`}>{props.children}</FormShell>
                 </Card>
             </Form>
-            <p css={tw`text-center text-neutral-600 text-2xs mt-6 tracking-wide w-full`}>
-                &copy; {new Date().getFullYear()} IdanDev Panel
+            <p css={tw`text-center text-neutral-600 text-2xs mt-6 w-full`}>
+                © {new Date().getFullYear()} IdanDev — כל הזכויות שמורות
             </p>
         </Container>
     );

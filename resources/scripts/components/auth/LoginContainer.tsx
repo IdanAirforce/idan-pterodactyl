@@ -70,23 +70,23 @@ const LoginContainer = ({ history }: RouteComponentProps) => {
             onSubmit={onSubmit}
             initialValues={{ username: '', password: '' }}
             validationSchema={object().shape({
-                username: string().required('A username or email must be provided.'),
-                password: string().required('Please enter your account password.'),
+                username: string().required('נא להזין שם משתמש או אימייל.'),
+                password: string().required('נא להזין את סיסמת החשבון.'),
             })}
         >
             {({ isSubmitting, setSubmitting, submitForm }) => (
                 <LoginFormContainer
-                    title={'Welcome Back'}
-                    subtitle={'Sign in to manage servers, allocations, and account settings.'}
+                    title={'ברוך הבא'}
+                    subtitle={'התחבר כדי לנהל את השרתים, ההקצאות והגדרות החשבון שלך.'}
                     size={'default'}
                 >
-                    <Field light type={'text'} label={'Username or Email'} name={'username'} disabled={isSubmitting} />
+                    <Field light type={'text'} label={'שם משתמש או אימייל'} name={'username'} disabled={isSubmitting} />
                     <div css={tw`mt-3`}>
-                        <Field light type={'password'} label={'Password'} name={'password'} disabled={isSubmitting} />
+                        <Field light type={'password'} label={'סיסמה'} name={'password'} disabled={isSubmitting} />
                     </div>
                     <div css={tw`mt-5`}>
                         <Button type={'submit'} size={'xlarge'} isLoading={isSubmitting} disabled={isSubmitting}>
-                            Login
+                            התחברות
                         </Button>
                     </div>
                     {recaptchaEnabled && (
@@ -111,18 +111,18 @@ const LoginContainer = ({ history }: RouteComponentProps) => {
                     >
                         <Link
                             to={'/auth/register'}
-                            css={tw`text-xs text-neutral-400 tracking-wider no-underline uppercase hover:text-primary-300`}
+                            css={tw`text-xs text-neutral-400 no-underline hover:text-primary-300`}
                         >
-                            Create an account
+                            צור חשבון
                         </Link>
                         <span css={tw`text-neutral-600 select-none`} aria-hidden>
                             |
                         </span>
                         <Link
                             to={'/auth/password'}
-                            css={tw`text-xs text-neutral-400 tracking-wider no-underline uppercase hover:text-primary-300`}
+                            css={tw`text-xs text-neutral-400 no-underline hover:text-primary-300`}
                         >
-                            Forgot password?
+                            שכחת סיסמה?
                         </Link>
                     </div>
                 </LoginFormContainer>

@@ -18,6 +18,8 @@ export default () => {
             className={
                 'relative min-h-screen flex flex-col items-center justify-center py-8 sm:py-10 px-4 overflow-x-hidden bg-[#050506]'
             }
+            dir={'rtl'}
+            lang={'he'}
         >
             <div
                 className={

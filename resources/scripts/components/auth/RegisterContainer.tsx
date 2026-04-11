@@ -80,46 +80,50 @@ export default () => {
             }}
             validationSchema={object().shape({
                 username: string()
-                    .required('A username is required.')
-                    .min(1, 'A username is required.')
-                    .max(191, 'Username may not be greater than 191 characters.'),
-                email: string().email('A valid email address must be provided.').required('A valid email address must be provided.'),
-                first_name: string().required('Please enter your first name.').max(191),
-                last_name: string().required('Please enter your last name.').max(191),
-                password: string().required('Please choose a password.').min(8, 'Your password should be at least 8 characters in length.'),
+                    .required('נדרש שם משתמש.')
+                    .min(1, 'נדרש שם משתמש.')
+                    .max(191, 'שם המשתמש לא יעלה על 191 תווים.'),
+                email: string()
+                    .email('יש להזין כתובת אימייל תקינה.')
+                    .required('יש להזין כתובת אימייל תקינה.'),
+                first_name: string().required('נא להזין שם פרטי.').max(191, 'שם פרטי ארוך מדי.'),
+                last_name: string().required('נא להזין שם משפחה.').max(191, 'שם משפחה ארוך מדי.'),
+                password: string()
+                    .required('נא לבחור סיסמה.')
+                    .min(8, 'הסיסמה חייבת לכלול לפחות 8 תווים.'),
                 passwordConfirmation: string()
-                    .required('Please confirm your password.')
+                    .required('נא לאמת את הסיסמה.')
                     // @ts-expect-error this is valid
-                    .oneOf([ref('password'), null], 'Password confirmation does not match.'),
+                    .oneOf([ref('password'), null], 'הסיסמאות אינן תואמות.'),
             })}
         >
             {({ isSubmitting, setSubmitting, submitForm }) => (
                 <LoginFormContainer
-                    title={'Create Your Panel Account'}
-                    subtitle={'Join your hosting control panel with secure account access.'}
+                    title={'יצירת חשבון חדש'}
+                    subtitle={'פתח חשבון חדש כדי לגשת לפאנל הניהול שלך.'}
                     size={'wide'}
                 >
                     <div css={tw`grid md:grid-cols-2 gap-2 md:gap-3`}>
-                        <Field light type={'text'} label={'Username'} name={'username'} disabled={isSubmitting} />
-                        <Field light type={'email'} label={'Email'} name={'email'} disabled={isSubmitting} />
+                        <Field light type={'text'} label={'שם משתמש'} name={'username'} disabled={isSubmitting} />
+                        <Field light type={'email'} label={'אימייל'} name={'email'} disabled={isSubmitting} />
                     </div>
                     <div css={tw`mt-2 md:mt-3 grid md:grid-cols-2 gap-2 md:gap-3`}>
-                        <Field light type={'text'} label={'First name'} name={'first_name'} disabled={isSubmitting} />
-                        <Field light type={'text'} label={'Last name'} name={'last_name'} disabled={isSubmitting} />
+                        <Field light type={'text'} label={'שם פרטי'} name={'first_name'} disabled={isSubmitting} />
+                        <Field light type={'text'} label={'שם משפחה'} name={'last_name'} disabled={isSubmitting} />
                     </div>
                     <div css={tw`mt-2 md:mt-3 grid md:grid-cols-2 gap-2 md:gap-3`}>
-                        <Field light type={'password'} label={'Password'} name={'password'} disabled={isSubmitting} />
+                        <Field light type={'password'} label={'סיסמה'} name={'password'} disabled={isSubmitting} />
                         <Field
                             light
                             type={'password'}
-                            label={'Confirm password'}
+                            label={'אימות סיסמה'}
                             name={'passwordConfirmation'}
                             disabled={isSubmitting}
                         />
                     </div>
                     <div css={tw`mt-2 md:mt-3`}>
                         <Button type={'submit'} size={'xlarge'} isLoading={isSubmitting} disabled={isSubmitting}>
-                            Register
+                            יצירת חשבון
                         </Button>
                     </div>
                     {recaptchaEnabled && (
@@ -140,11 +144,8 @@ export default () => {
                         </AuthRecaptchaPortal>
                     )}
                     <div css={tw`mt-3 text-center`}>
-                        <Link
-                            to={'/auth/login'}
-                            css={tw`text-xs text-neutral-400 tracking-wider no-underline uppercase hover:text-primary-300`}
-                        >
-                            Already have an account?
+                        <Link to={'/auth/login'} css={tw`text-xs text-neutral-400 no-underline hover:text-primary-300`}>
+                            כבר יש לך חשבון?
                         </Link>
                     </div>
                 </LoginFormContainer>

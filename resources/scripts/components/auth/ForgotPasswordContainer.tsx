@@ -39,7 +39,7 @@ export default () => {
                 console.error(error);
 
                 setSubmitting(false);
-                addFlash({ type: 'error', title: 'Error', message: httpErrorToHuman(error) });
+                addFlash({ type: 'error', title: 'שגיאה', message: httpErrorToHuman(error) });
             });
 
             return;
@@ -48,11 +48,11 @@ export default () => {
         requestPasswordResetEmail(email, token)
             .then((response) => {
                 resetForm();
-                addFlash({ type: 'success', title: 'Success', message: response });
+                addFlash({ type: 'success', title: 'הצלחה', message: response });
             })
             .catch((error) => {
                 console.error(error);
-                addFlash({ type: 'error', title: 'Error', message: httpErrorToHuman(error) });
+                addFlash({ type: 'error', title: 'שגיאה', message: httpErrorToHuman(error) });
             })
             .then(() => {
                 setToken('');
@@ -68,28 +68,28 @@ export default () => {
             initialValues={{ email: '' }}
             validationSchema={object().shape({
                 email: string()
-                    .email('A valid email address must be provided to continue.')
-                    .required('A valid email address must be provided to continue.'),
+                    .email('יש להזין כתובת אימייל תקינה.')
+                    .required('יש להזין כתובת אימייל תקינה.'),
             })}
         >
             {({ isSubmitting, setSubmitting, submitForm }) => (
                 <LoginFormContainer
-                    title={'Reset Access'}
-                    subtitle={'Enter your account email and we will send reset instructions.'}
+                    title={'איפוס גישה'}
+                    subtitle={'הזן את כתובת האימייל שלך ונשלח לך הוראות לאיפוס הסיסמה.'}
                     size={'default'}
                 >
                     <Field
                         light
-                        label={'Email'}
+                        label={'אימייל'}
                         description={
-                            'Enter your account email address to receive instructions on resetting your password.'
+                            'הזן את כתובת האימייל של החשבון כדי לקבל הוראות לאיפוס הסיסמה.'
                         }
                         name={'email'}
                         type={'email'}
                     />
                     <div css={tw`mt-5`}>
                         <Button type={'submit'} size={'xlarge'} disabled={isSubmitting} isLoading={isSubmitting}>
-                            Send Email
+                            שליחת אימייל
                         </Button>
                     </div>
                     {recaptchaEnabled && (
@@ -110,11 +110,8 @@ export default () => {
                         </AuthRecaptchaPortal>
                     )}
                     <div css={tw`mt-5 text-center`}>
-                        <Link
-                            to={'/auth/login'}
-                            css={tw`text-xs text-neutral-400 tracking-wider uppercase no-underline hover:text-primary-300`}
-                        >
-                            Return to Login
+                        <Link to={'/auth/login'} css={tw`text-xs text-neutral-400 no-underline hover:text-primary-300`}>
+                            חזרה להתחברות
                         </Link>
                     </div>
                 </LoginFormContainer>

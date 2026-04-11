@@ -177,7 +177,7 @@ export default forwardRef<HTMLFormElement, Props>(({ title, subtitle, size = 'de
                             css={tw`relative flex-1 p-5 md:p-7 lg:p-9 bg-neutral-950/60 border-t lg:border-t-0 lg:border-l border-neutral-800`}
                         >
                             <div css={tw`absolute inset-0 pointer-events-none opacity-40`}>
-                                <div css={tw`absolute top-0 right-0 h-32 w-32 rounded-full bg-orange-500/15 blur-2xl`} />
+                                <div css={tw`absolute top-0 right-0 h-32 w-32 rounded-full bg-orange-500/10 blur-2xl`} />
                             </div>
                             <div css={tw`relative`}>
                                 {title && (

@@ -18,7 +18,7 @@ export default () => {
             <div className={'absolute inset-0 pointer-events-none'}>
                 <div className={'absolute inset-0 bg-gradient-to-b from-[#0a0b0f] via-[#0c0d12] to-neutral-950'} />
                 <div className={'absolute -top-24 -left-24 w-80 h-80 rounded-full bg-orange-600/20 blur-3xl'} />
-                <div className={'absolute top-1/3 -right-20 w-72 h-72 rounded-full bg-red-600/15 blur-3xl'} />
+                <div className={'absolute top-1/3 -right-20 w-72 h-72 rounded-full bg-red-600/10 blur-3xl'} />
                 <div className={'absolute -bottom-28 left-1/4 w-96 h-96 rounded-full bg-amber-600/10 blur-3xl'} />
             </div>
             <Switch location={location}>

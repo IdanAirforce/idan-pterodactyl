@@ -30,6 +30,9 @@ module.exports = {
                 gray: gray,
                 neutral: gray,
                 cyan: colors.cyan,
+                // Used by auth UI (twin.macro only resolves colors present in theme.extend)
+                orange: colors.orange,
+                amber: colors.amber,
             },
             fontSize: {
                 '2xs': '0.625rem',

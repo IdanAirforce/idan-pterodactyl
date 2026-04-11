@@ -11,6 +11,8 @@ const gray = {
     700: 'hsl(209, 18%, 30%)',
     800: 'hsl(209, 20%, 25%)',
     900: 'hsl(210, 24%, 16%)',
+    // twin.macro + Tailwind use this scale literally; 950 is not in default Tailwind when gray is overridden
+    950: 'hsl(210, 26%, 10%)',
 };
 
 module.exports = {

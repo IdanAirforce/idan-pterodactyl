@@ -129,7 +129,7 @@ const AuthTopNav = () => (
 
 const BrandingPanel = () => (
     <div
-        css={tw`relative flex flex-col justify-between p-6 md:p-8 lg:p-10 min-h-[220px] lg:min-h-[min(100%,28rem)] lg:w-[42%] flex-shrink-0 overflow-hidden bg-gradient-to-br from-neutral-950 via-neutral-900 to-[#0f0d0c]`}
+        css={tw`relative flex flex-col justify-between p-6 md:p-8 lg:p-10 min-h-[220px] lg:min-h-[28rem] lg:w-[42%] flex-shrink-0 overflow-hidden bg-gradient-to-br from-neutral-950 via-neutral-900 to-[#0f0d0c]`}
     >
         <div css={tw`absolute inset-0 pointer-events-none`}>
             <div css={tw`absolute -top-20 -left-16 h-56 w-56 rounded-full bg-orange-600/25 blur-3xl`} />

@@ -140,7 +140,7 @@ export default () => {
                     <div css={tw`mt-3 text-center`}>
                         <Link
                             to={'/auth/login'}
-                            css={tw`text-xs text-neutral-400 tracking-wider no-underline uppercase hover:text-orange-400`}
+                            css={tw`text-xs text-neutral-400 tracking-wider no-underline uppercase hover:text-primary-300`}
                         >
                             Already have an account?
                         </Link>

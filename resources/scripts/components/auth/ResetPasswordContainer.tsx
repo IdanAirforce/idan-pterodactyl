@@ -71,7 +71,7 @@ export default ({ match, location }: RouteComponentProps<{ token: string }>) => 
                         <label>Email</label>
                         <Input value={email} isLight disabled />
                     </div>
-                    <div css={tw`mt-4`}>
+                    <div css={tw`mt-3`}>
                         <Field
                             light
                             label={'New Password'}
@@ -80,15 +80,15 @@ export default ({ match, location }: RouteComponentProps<{ token: string }>) => 
                             description={'Passwords must be at least 8 characters in length.'}
                         />
                     </div>
-                    <div css={tw`mt-4`}>
+                    <div css={tw`mt-3`}>
                         <Field light label={'Confirm New Password'} name={'passwordConfirmation'} type={'password'} />
                     </div>
-                    <div css={tw`mt-4`}>
+                    <div css={tw`mt-5`}>
                         <Button size={'xlarge'} type={'submit'} disabled={isSubmitting} isLoading={isSubmitting}>
                             Reset Password
                         </Button>
                     </div>
-                    <div css={tw`mt-4 text-center`}>
+                    <div css={tw`mt-5 text-center`}>
                         <Link
                             to={'/auth/login'}
                             css={tw`text-xs text-neutral-400 tracking-wider no-underline uppercase hover:text-primary-300`}

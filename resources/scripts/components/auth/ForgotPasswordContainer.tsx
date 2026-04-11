@@ -12,6 +12,7 @@ import tw from 'twin.macro';
 import Button from '@/components/elements/Button';
 import Reaptcha from 'reaptcha';
 import useFlash from '@/plugins/useFlash';
+import AuthRecaptchaPortal from '@/components/auth/AuthRecaptchaPortal';
 
 interface Values {
     email: string;
@@ -87,27 +88,29 @@ export default () => {
                         name={'email'}
                         type={'email'}
                     />
-                    <div css={tw`mt-4`}>
+                    <div css={tw`mt-5`}>
                         <Button type={'submit'} size={'xlarge'} disabled={isSubmitting} isLoading={isSubmitting}>
                             Send Email
                         </Button>
                     </div>
                     {recaptchaEnabled && (
-                        <Reaptcha
-                            ref={ref}
-                            size={'invisible'}
-                            sitekey={siteKey || '_invalid_key'}
-                            onVerify={(response) => {
-                                setToken(response);
-                                submitForm();
-                            }}
-                            onExpire={() => {
-                                setSubmitting(false);
-                                setToken('');
-                            }}
-                        />
+                        <AuthRecaptchaPortal>
+                            <Reaptcha
+                                ref={ref}
+                                size={'invisible'}
+                                sitekey={siteKey || '_invalid_key'}
+                                onVerify={(response) => {
+                                    setToken(response);
+                                    submitForm();
+                                }}
+                                onExpire={() => {
+                                    setSubmitting(false);
+                                    setToken('');
+                                }}
+                            />
+                        </AuthRecaptchaPortal>
                     )}
-                    <div css={tw`mt-4 text-center`}>
+                    <div css={tw`mt-5 text-center`}>
                         <Link
                             to={'/auth/login'}
                             css={tw`text-xs text-neutral-400 tracking-wider uppercase no-underline hover:text-primary-300`}

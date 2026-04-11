@@ -33,7 +33,7 @@ const LoginCheckpointContainer = () => {
             size={'default'}
             css={tw`w-full flex`}
         >
-            <div css={tw`mt-4`}>
+            <div css={tw`mt-1`}>
                 <Field
                     light
                     name={isMissingDevice ? 'recoveryCode' : 'code'}
@@ -48,7 +48,7 @@ const LoginCheckpointContainer = () => {
                     autoFocus
                 />
             </div>
-            <div css={tw`mt-4`}>
+            <div css={tw`mt-5`}>
                 <Button size={'xlarge'} type={'submit'} disabled={isSubmitting} isLoading={isSubmitting}>
                     Continue
                 </Button>

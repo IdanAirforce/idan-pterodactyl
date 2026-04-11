@@ -10,6 +10,7 @@ import LoginFormContainer from '@/components/auth/LoginFormContainer';
 import Field from '@/components/elements/Field';
 import Button from '@/components/elements/Button';
 import useFlash from '@/plugins/useFlash';
+import AuthRecaptchaPortal from '@/components/auth/AuthRecaptchaPortal';
 
 interface Values {
     username: string;
@@ -123,19 +124,21 @@ export default () => {
                         </Button>
                     </div>
                     {recaptchaEnabled && (
-                        <Reaptcha
-                            ref={refInstance}
-                            size={'invisible'}
-                            sitekey={siteKey || '_invalid_key'}
-                            onVerify={(response) => {
-                                setToken(response);
-                                submitForm();
-                            }}
-                            onExpire={() => {
-                                setSubmitting(false);
-                                setToken('');
-                            }}
-                        />
+                        <AuthRecaptchaPortal>
+                            <Reaptcha
+                                ref={refInstance}
+                                size={'invisible'}
+                                sitekey={siteKey || '_invalid_key'}
+                                onVerify={(response) => {
+                                    setToken(response);
+                                    submitForm();
+                                }}
+                                onExpire={() => {
+                                    setSubmitting(false);
+                                    setToken('');
+                                }}
+                            />
+                        </AuthRecaptchaPortal>
                     )}
                     <div css={tw`mt-3 text-center`}>
                         <Link

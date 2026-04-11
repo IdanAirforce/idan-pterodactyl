@@ -10,6 +10,7 @@ import tw from 'twin.macro';
 import Button from '@/components/elements/Button';
 import Reaptcha from 'reaptcha';
 import useFlash from '@/plugins/useFlash';
+import AuthRecaptchaPortal from '@/components/auth/AuthRecaptchaPortal';
 
 interface Values {
     username: string;
@@ -81,30 +82,32 @@ const LoginContainer = ({ history }: RouteComponentProps) => {
                     css={tw`w-full flex`}
                 >
                     <Field light type={'text'} label={'Username or Email'} name={'username'} disabled={isSubmitting} />
-                    <div css={tw`mt-4`}>
+                    <div css={tw`mt-3`}>
                         <Field light type={'password'} label={'Password'} name={'password'} disabled={isSubmitting} />
                     </div>
-                    <div css={tw`mt-4`}>
+                    <div css={tw`mt-5`}>
                         <Button type={'submit'} size={'xlarge'} isLoading={isSubmitting} disabled={isSubmitting}>
                             Login
                         </Button>
                     </div>
                     {recaptchaEnabled && (
-                        <Reaptcha
-                            ref={ref}
-                            size={'invisible'}
-                            sitekey={siteKey || '_invalid_key'}
-                            onVerify={(response) => {
-                                setToken(response);
-                                submitForm();
-                            }}
-                            onExpire={() => {
-                                setSubmitting(false);
-                                setToken('');
-                            }}
-                        />
+                        <AuthRecaptchaPortal>
+                            <Reaptcha
+                                ref={ref}
+                                size={'invisible'}
+                                sitekey={siteKey || '_invalid_key'}
+                                onVerify={(response) => {
+                                    setToken(response);
+                                    submitForm();
+                                }}
+                                onExpire={() => {
+                                    setSubmitting(false);
+                                    setToken('');
+                                }}
+                            />
+                        </AuthRecaptchaPortal>
                     )}
-                    <div css={tw`mt-4 text-center space-y-2`}>
+                    <div css={tw`mt-5 text-center space-y-2`}>
                         <div>
                             <Link
                                 to={'/auth/register'}

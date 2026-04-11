@@ -12,96 +12,156 @@ type Props = React.DetailedHTMLProps<React.FormHTMLAttributes<HTMLFormElement>, 
 };
 
 const Container = styled.div`
-    ${tw`w-full mx-auto px-4`};
+    ${tw`w-full mx-auto max-w-6xl flex flex-col items-center`};
+    ${tw`px-4`};
 
     ${breakpoint('md')`
         ${tw`px-6`}
     `};
 `;
 
-const Card = styled.div<{ size: 'default' | 'wide' }>`
-    ${(props) => (props.size === 'wide' ? tw`max-w-2xl` : tw`max-w-lg`)};
-    ${tw`w-full mx-auto relative overflow-hidden rounded-2xl border shadow-2xl p-4 md:p-5 bg-neutral-900`};
-    border-color: rgba(96, 165, 250, 0.25);
+const Card = styled.div<{ $wide: boolean }>`
+    width: 100%;
+    max-width: ${(p: { $wide: boolean }) => (p.$wide ? '42rem' : '26rem')};
+    position: relative;
+    overflow: hidden;
+    border-radius: 14px;
+    padding: 1.5rem 1.35rem;
+    @media (min-width: 640px) {
+        padding: 1.75rem 1.6rem;
+    }
+
+    background: rgba(14, 16, 22, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.055);
     box-shadow:
-        0 20px 50px rgba(0, 0, 0, 0.45),
-        0 0 0 1px rgba(59, 130, 246, 0.08);
-    backdrop-filter: blur(10px);
+        inset 0 1px 0 rgba(255, 255, 255, 0.04),
+        0 4px 6px rgba(0, 0, 0, 0.25),
+        0 20px 50px rgba(0, 0, 0, 0.55),
+        0 0 0 1px rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(18px) saturate(1.2);
+    -webkit-backdrop-filter: blur(18px) saturate(1.2);
 `;
 
 const FormShell = styled.div`
     label {
-        color: #e5e7eb;
-        font-size: 0.75rem;
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
+        display: block;
+        margin-bottom: 0.4rem;
+        font-size: 0.6875rem;
         font-weight: 600;
+        letter-spacing: 0.11em;
+        text-transform: uppercase;
+        color: #a1a1aa !important;
     }
 
-    input {
-        background: #0b1220 !important;
-        border-color: #334155 !important;
-        color: #f9fafb !important;
-        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.45);
+    input:not([type='checkbox']):not([type='radio']) {
+        background: #060709 !important;
+        border: 1px solid rgba(63, 63, 70, 0.85) !important;
+        border-radius: 9px !important;
+        color: #f4f4f5 !important;
+        padding: 0.7rem 0.85rem !important;
+        font-size: 0.875rem !important;
+        line-height: 1.4 !important;
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.55) !important;
+        transition:
+            border-color 0.15s ease,
+            box-shadow 0.15s ease;
     }
 
     input::placeholder {
-        color: #9ca3af;
+        color: #71717a;
+    }
+
+    input:not(:disabled):not(:read-only):hover {
+        border-color: rgba(82, 82, 91, 0.95) !important;
     }
 
     input:not(:disabled):not(:read-only):focus {
-        border-color: #38bdf8 !important;
+        border-color: rgba(59, 130, 246, 0.55) !important;
+        outline: none !important;
         box-shadow:
-            0 0 0 2px rgba(56, 189, 248, 0.32),
-            0 8px 20px rgba(37, 99, 235, 0.2),
-            inset 0 1px 1px rgba(0, 0, 0, 0.2) !important;
+            inset 0 1px 2px rgba(0, 0, 0, 0.5),
+            0 0 0 2px rgba(37, 99, 235, 0.28),
+            0 0 24px rgba(37, 99, 235, 0.12) !important;
+    }
+
+    input:disabled,
+    input:read-only {
+        opacity: 0.72;
+        cursor: not-allowed;
     }
 
     .input-help {
-        color: #9ca3af;
+        margin-top: 0.35rem;
+        font-size: 0.75rem;
+        line-height: 1.35;
+        color: #71717a;
+    }
+
+    .input-help.error {
+        color: #fca5a5;
     }
 
     button[type='submit'] {
-        background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%) !important;
-        border-color: #60a5fa !important;
+        width: 100%;
+        margin-top: 0.15rem;
+        padding: 0.72rem 1rem !important;
+        border-radius: 9px !important;
+        border: 1px solid rgba(96, 165, 250, 0.35) !important;
+        background: linear-gradient(180deg, #2563eb 0%, #1d4ed8 55%, #1e40af 100%) !important;
         color: #ffffff !important;
-        font-weight: 700;
-        letter-spacing: 0.04em;
-        box-shadow: 0 10px 24px rgba(37, 99, 235, 0.35);
+        font-size: 0.8125rem !important;
+        font-weight: 650 !important;
+        letter-spacing: 0.08em !important;
+        text-transform: uppercase !important;
+        box-shadow:
+            0 1px 0 rgba(255, 255, 255, 0.12) inset,
+            0 10px 28px rgba(37, 99, 235, 0.28) !important;
+        transition:
+            background 0.15s ease,
+            border-color 0.15s ease,
+            box-shadow 0.15s ease,
+            opacity 0.15s ease !important;
     }
 
     button[type='submit']:hover:not(:disabled) {
-        background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%) !important;
-        border-color: #7dd3fc !important;
-        box-shadow: 0 12px 28px rgba(59, 130, 246, 0.42);
+        border-color: rgba(147, 197, 253, 0.45) !important;
+        background: linear-gradient(180deg, #3b82f6 0%, #2563eb 50%, #1d4ed8 100%) !important;
+        box-shadow:
+            0 1px 0 rgba(255, 255, 255, 0.14) inset,
+            0 12px 32px rgba(59, 130, 246, 0.35) !important;
     }
 
     button[type='submit']:active:not(:disabled) {
-        background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%) !important;
-        border-color: #3b82f6 !important;
+        background: linear-gradient(180deg, #1d4ed8 0%, #1e3a8a 100%) !important;
+        box-shadow: 0 1px 0 rgba(255, 255, 255, 0.08) inset !important;
+    }
+
+    button[type='submit']:disabled {
+        opacity: 0.55 !important;
+        cursor: not-allowed !important;
     }
 `;
 
 export default forwardRef<HTMLFormElement, Props>(({ title, subtitle, size = 'default', ...props }, ref) => (
     <Container>
-        <div css={tw`text-center mb-4 px-2`}>
-            <p css={tw`inline-flex items-center rounded-full px-3 py-1 text-xs tracking-wider uppercase text-blue-100 bg-blue-500/10 border border-blue-400/30`}>
-                IdanDev Panel Access
+        <div css={tw`text-center mb-5 px-1 max-w-md`}>
+            <p
+                css={tw`inline-flex items-center rounded-md px-2.5 py-1 text-2xs font-semibold tracking-widest uppercase text-primary-200 bg-primary-500/10 border border-primary-500/20`}
+            >
+                IdanDev
             </p>
-            {title && <h2 css={tw`mt-3 text-2xl md:text-3xl text-neutral-100 font-bold`}>{title}</h2>}
-            {subtitle && <p css={tw`mt-2 text-sm text-neutral-300 max-w-xl mx-auto`}>{subtitle}</p>}
+            {title && (
+                <h2 css={tw`mt-4 text-xl sm:text-2xl text-neutral-100 font-semibold tracking-tight`}>{title}</h2>
+            )}
+            {subtitle && <p css={tw`mt-2 text-sm text-neutral-400 leading-relaxed max-w-sm mx-auto`}>{subtitle}</p>}
         </div>
-        <FlashMessageRender css={tw`mb-3 max-w-3xl mx-auto px-1`} />
+        <FlashMessageRender css={tw`mb-4 w-full max-w-2xl`} />
         <Form {...props} ref={ref}>
-            <Card size={size}>
-                <div css={tw`absolute inset-0 pointer-events-none`}>
-                    <div css={tw`absolute -top-16 -left-12 h-44 w-44 rounded-full bg-blue-500/20 blur-3xl`} />
-                    <div css={tw`absolute -bottom-16 -right-10 h-44 w-44 rounded-full bg-cyan-500/20 blur-3xl`} />
-                </div>
+            <Card $wide={size === 'wide'}>
                 <FormShell css={tw`relative`}>{props.children}</FormShell>
             </Card>
         </Form>
-        <p css={tw`text-center text-neutral-500 text-xs mt-5`}>
+        <p css={tw`text-center text-neutral-600 text-2xs mt-6 tracking-wide`}>
             &copy; {new Date().getFullYear()} IdanDev Panel
         </p>
     </Container>

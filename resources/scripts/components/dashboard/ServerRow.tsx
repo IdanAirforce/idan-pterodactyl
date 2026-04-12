@@ -271,7 +271,7 @@ export default ({ server, className }: { server: Server; className?: string }) =
                 )}
             </div>
 
-            <div css={tw`flex flex-col items-center gap-3 lg:items-end shrink-0`}>
+            <div css={tw`flex flex-col items-center gap-3 lg:items-end flex-flex-shrink-0`}>
                 {statusBlock()}
                 <ManageCue>ניהול</ManageCue>
             </div>

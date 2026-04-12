@@ -53,17 +53,20 @@ export default () => {
     }, [error]);
 
     return (
-        <PageContentBlock title={'Dashboard'} showFlashKey={'dashboard'}>
+        <PageContentBlock title={'השרתים שלי'} showFlashKey={'dashboard'}>
+            <h1 css={tw`text-2xl sm:text-3xl font-semibold text-zinc-100 tracking-tight mb-6 text-right`}>
+                השרתים שלי
+            </h1>
             {rootAdmin && (
-                <div css={tw`mb-2 flex justify-end items-center`}>
-                    <p css={tw`uppercase text-xs text-neutral-400 mr-2`}>
-                        {showOnlyAdmin ? "Showing others' servers" : 'Showing your servers'}
-                    </p>
+                <div css={tw`mb-5 flex flex-row-reverse flex-wrap items-center justify-end gap-3`}>
                     <Switch
                         name={'show_all_servers'}
                         defaultChecked={showOnlyAdmin}
                         onChange={() => setShowOnlyAdmin((s) => !s)}
                     />
+                    <p css={tw`text-sm text-zinc-400 text-right`}>
+                        {showOnlyAdmin ? 'מציג שרתים של משתמשים אחרים' : 'מציג את השרתים שלך'}
+                    </p>
                 </div>
             )}
             {!servers ? (
@@ -72,14 +75,14 @@ export default () => {
                 <Pagination data={servers} onPageSelect={setPage}>
                     {({ items }) =>
                         items.length > 0 ? (
-                            items.map((server, index) => (
-                                <ServerRow key={server.uuid} server={server} css={index > 0 ? tw`mt-2` : undefined} />
-                            ))
+                            <div css={tw`flex flex-col gap-4`}>
+                                {items.map((server) => (
+                                    <ServerRow key={server.uuid} server={server} />
+                                ))}
+                            </div>
                         ) : (
-                            <p css={tw`text-center text-sm text-neutral-400`}>
-                                {showOnlyAdmin
-                                    ? 'There are no other servers to display.'
-                                    : 'There are no servers associated with your account.'}
+                            <p css={tw`text-center text-sm text-zinc-500 py-8`}>
+                                {showOnlyAdmin ? 'אין שרתים נוספים להצגה.' : 'אין שרתים המקושרים לחשבון שלך.'}
                             </p>
                         )
                     }

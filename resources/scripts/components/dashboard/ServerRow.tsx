@@ -1,53 +1,129 @@
-import React, { memo, useEffect, useRef, useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEthernet, faHdd, faMemory, faMicrochip, faServer } from '@fortawesome/free-solid-svg-icons';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Server } from '@/api/server/getServer';
 import getServerResourceUsage, { ServerPowerState, ServerStats } from '@/api/server/getServerResourceUsage';
 import { bytesToString, ip, mbToBytes } from '@/lib/formatters';
 import tw from 'twin.macro';
-import GreyRowBox from '@/components/elements/GreyRowBox';
 import Spinner from '@/components/elements/Spinner';
 import styled from 'styled-components/macro';
-import isEqual from 'react-fast-compare';
 
-// Determines if the current value is in an alarm threshold so we can show it in red rather
-// than the more faded default style.
 const isAlarmState = (current: number, limit: number): boolean => limit > 0 && current / (limit * 1024 * 1024) >= 0.9;
 
-const Icon = memo(
-    styled(FontAwesomeIcon)<{ $alarm: boolean }>`
-        ${(props) => (props.$alarm ? tw`text-red-400` : tw`text-neutral-500`)};
-    `,
-    isEqual
-);
+const UNLIMITED_HE = 'ללא הגבלה';
 
-const IconDescription = styled.p<{ $alarm: boolean }>`
-    ${tw`text-sm ml-2`};
-    ${(props) => (props.$alarm ? tw`text-white` : tw`text-neutral-400`)};
+const GlassCard = styled(Link)`
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+    border-radius: 0.75rem;
+    padding: 1rem 1.15rem;
+    background: rgba(39, 39, 42, 0.72);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.04),
+        0 10px 40px rgba(0, 0, 0, 0.35),
+        0 0 0 1px rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(16px) saturate(1.15);
+    -webkit-backdrop-filter: blur(16px) saturate(1.15);
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease,
+        background 0.2s ease;
+
+    @media (min-width: 1024px) {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1.45fr) auto;
+        gap: 1.25rem;
+        padding: 1.1rem 1.35rem;
+    }
+
+    &:hover {
+        transform: translateY(-2px);
+        border-color: rgba(255, 255, 255, 0.14);
+        background: rgba(47, 47, 52, 0.78);
+        box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.06),
+            0 16px 48px rgba(0, 0, 0, 0.45),
+            0 0 0 1px rgba(59, 130, 246, 0.12),
+            0 0 36px rgba(59, 130, 246, 0.06);
+    }
 `;
 
-const StatusIndicatorBox = styled(GreyRowBox)<{ $status: ServerPowerState | undefined }>`
-    ${tw`grid grid-cols-12 gap-4 relative`};
+const ThinBar = styled.div<{ $alarm?: boolean; $pct: number }>`
+    ${tw`h-1 rounded-full overflow-hidden bg-white/10`};
+    width: 100%;
+    position: relative;
 
-    & .status-bar {
-        ${tw`w-2 bg-red-500 absolute right-0 z-20 rounded-full m-1 opacity-50 transition-all duration-150`};
-        height: calc(100% - 0.5rem);
-
-        ${({ $status }) =>
-            !$status || $status === 'offline'
-                ? tw`bg-red-500`
-                : $status === 'running'
-                ? tw`bg-green-500`
-                : tw`bg-yellow-500`};
+    &::after {
+        content: '';
+        position: absolute;
+        inset: 0 auto 0 0;
+        width: ${(p) => Math.min(100, Math.max(0, p.$pct))}%;
+        border-radius: 9999px;
+        background: ${(p) =>
+            p.$alarm
+                ? 'linear-gradient(90deg, #f87171, #ef4444)'
+                : 'linear-gradient(90deg, rgba(96, 165, 250, 0.85), rgba(59, 130, 246, 0.95))'};
+        transition: width 0.35s ease;
     }
+`;
 
-    &:hover .status-bar {
-        ${tw`opacity-75`};
+const StatusBadge = styled.span<{ $tone: 'green' | 'red' | 'yellow' | 'neutral' }>`
+    ${tw`inline-flex items-center text-xs font-medium px-2.5 py-1 rounded-lg`};
+    ${(p) =>
+        p.$tone === 'green' &&
+        tw`bg-emerald-500/15 text-emerald-200 border border-emerald-400/25`}
+    ${(p) =>
+        p.$tone === 'red' &&
+        tw`bg-red-500/15 text-red-200 border border-red-400/25`}
+    ${(p) =>
+        p.$tone === 'yellow' &&
+        tw`bg-amber-500/15 text-amber-100 border border-amber-400/25`}
+    ${(p) =>
+        p.$tone === 'neutral' &&
+        tw`bg-zinc-500/20 text-zinc-200 border border-white/10`}
+`;
+
+const ManageCue = styled.span`
+    ${tw`inline-flex items-center justify-center text-sm font-semibold px-4 py-2 rounded-lg`};
+    border: 1px solid rgba(96, 165, 250, 0.35);
+    background: linear-gradient(180deg, rgba(37, 99, 235, 0.55) 0%, rgba(29, 78, 216, 0.45) 100%);
+    color: #f8fafc;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1) inset, 0 8px 24px rgba(37, 99, 235, 0.2);
+    transition:
+        border-color 0.15s ease,
+        box-shadow 0.15s ease,
+        background 0.15s ease;
+
+    ${GlassCard}:hover & {
+        border-color: rgba(147, 197, 253, 0.45);
+        box-shadow: 0 1px 0 rgba(255, 255, 255, 0.12) inset, 0 10px 28px rgba(59, 130, 246, 0.28);
+        background: linear-gradient(180deg, rgba(59, 130, 246, 0.65) 0%, rgba(37, 99, 235, 0.5) 100%);
     }
+`;
+
+const RowLabel = styled.span<{ $alarm?: boolean }>`
+    ${tw`text-2xs uppercase tracking-wide`};
+    ${(p) => (p.$alarm ? tw`text-red-200` : tw`text-zinc-500`)};
 `;
 
 type Timer = ReturnType<typeof setInterval>;
+
+function powerStateLabel(status: ServerPowerState | undefined): { text: string; tone: 'green' | 'red' | 'yellow' | 'neutral' } {
+    if (!status || status === 'offline') {
+        return { text: 'כבוי', tone: 'red' };
+    }
+    if (status === 'running') {
+        return { text: 'פעיל', tone: 'green' };
+    }
+    if (status === 'starting' || status === 'stopping') {
+        return { text: status === 'starting' ? 'מפעיל' : 'כובה', tone: 'yellow' };
+    }
+    return { text: 'לא זמין', tone: 'neutral' };
+}
 
 export default ({ server, className }: { server: Server; className?: string }) => {
     const interval = useRef<Timer>(null) as React.MutableRefObject<Timer>;
@@ -64,8 +140,6 @@ export default ({ server, className }: { server: Server; className?: string }) =
     }, [stats?.isSuspended, server.status]);
 
     useEffect(() => {
-        // Don't waste a HTTP request if there is nothing important to show to the user because
-        // the server is suspended.
         if (isSuspended) return;
 
         getStats().then(() => {
@@ -84,93 +158,123 @@ export default ({ server, className }: { server: Server; className?: string }) =
         alarms.disk = server.limits.disk === 0 ? false : isAlarmState(stats.diskUsageInBytes, server.limits.disk);
     }
 
-    const diskLimit = server.limits.disk !== 0 ? bytesToString(mbToBytes(server.limits.disk)) : 'Unlimited';
-    const memoryLimit = server.limits.memory !== 0 ? bytesToString(mbToBytes(server.limits.memory)) : 'Unlimited';
-    const cpuLimit = server.limits.cpu !== 0 ? server.limits.cpu + ' %' : 'Unlimited';
+    const diskLimitBytes = server.limits.disk !== 0 ? mbToBytes(server.limits.disk) : 0;
+    const memoryLimitBytes = server.limits.memory !== 0 ? mbToBytes(server.limits.memory) : 0;
+
+    const diskLimitLabel = server.limits.disk !== 0 ? bytesToString(diskLimitBytes) : UNLIMITED_HE;
+    const memoryLimitLabel = server.limits.memory !== 0 ? bytesToString(memoryLimitBytes) : UNLIMITED_HE;
+    const cpuLimitLabel = server.limits.cpu !== 0 ? `${server.limits.cpu}%` : UNLIMITED_HE;
+
+    const cpuPctBar =
+        stats && !isSuspended
+            ? server.limits.cpu > 0
+                ? (stats.cpuUsagePercent / server.limits.cpu) * 100
+                : Math.min(100, stats.cpuUsagePercent)
+            : 0;
+
+    const memoryPctBar =
+        stats && !isSuspended && memoryLimitBytes > 0
+            ? (stats.memoryUsageInBytes / memoryLimitBytes) * 100
+            : stats && !isSuspended
+              ? Math.min(100, (stats.memoryUsageInBytes / (512 * 1024 * 1024)) * 100)
+              : 0;
+
+    const diskPctBar =
+        stats && !isSuspended && diskLimitBytes > 0
+            ? (stats.diskUsageInBytes / diskLimitBytes) * 100
+            : stats && !isSuspended
+              ? Math.min(100, (stats.diskUsageInBytes / (1024 * 1024 * 1024)) * 100)
+              : 0;
+
+    const defaultAlloc = server.allocations.filter((alloc) => alloc.isDefault);
+
+    const statusBlock = () => {
+        if (isSuspended) {
+            return <StatusBadge $tone={'red'}>מושעה</StatusBadge>;
+        }
+        if (!stats) {
+            if (server.isTransferring) {
+                return <StatusBadge $tone={'yellow'}>בהעברה</StatusBadge>;
+            }
+            if (server.status === 'installing') {
+                return <StatusBadge $tone={'yellow'}>בהתקנה</StatusBadge>;
+            }
+            if (server.status === 'restoring_backup') {
+                return <StatusBadge $tone={'yellow'}>משחזר גיבוי</StatusBadge>;
+            }
+            if (server.status) {
+                return <StatusBadge $tone={'neutral'}>לא זמין</StatusBadge>;
+            }
+            return null;
+        }
+        const { text, tone } = powerStateLabel(stats.status);
+        return <StatusBadge $tone={tone}>{text}</StatusBadge>;
+    };
+
+    const showResourceBars = stats && !isSuspended;
+    const showMiddleSpinner =
+        !isSuspended && !stats && !server.isTransferring && !server.status;
 
     return (
-        <StatusIndicatorBox as={Link} to={`/server/${server.id}`} className={className} $status={stats?.status}>
-            <div css={tw`flex items-center col-span-12 sm:col-span-5 lg:col-span-6`}>
-                <div className={'icon mr-4'}>
-                    <FontAwesomeIcon icon={faServer} />
-                </div>
-                <div>
-                    <p css={tw`text-lg break-words`}>{server.name}</p>
-                    {!!server.description && (
-                        <p css={tw`text-sm text-neutral-300 break-words line-clamp-2`}>{server.description}</p>
-                    )}
-                </div>
-            </div>
-            <div css={tw`flex-1 ml-4 lg:block lg:col-span-2 hidden`}>
-                <div css={tw`flex justify-center`}>
-                    <FontAwesomeIcon icon={faEthernet} css={tw`text-neutral-500`} />
-                    <p css={tw`text-sm text-neutral-400 ml-2`}>
-                        {server.allocations
-                            .filter((alloc) => alloc.isDefault)
-                            .map((allocation) => (
-                                <React.Fragment key={allocation.ip + allocation.port.toString()}>
-                                    {allocation.alias || ip(allocation.ip)}:{allocation.port}
-                                </React.Fragment>
-                            ))}
-                    </p>
-                </div>
-            </div>
-            <div css={tw`hidden col-span-7 lg:col-span-4 sm:flex items-baseline justify-center`}>
-                {!stats || isSuspended ? (
-                    isSuspended ? (
-                        <div css={tw`flex-1 text-center`}>
-                            <span css={tw`bg-red-500 rounded px-2 py-1 text-red-100 text-xs`}>
-                                {server.status === 'suspended' ? 'Suspended' : 'Connection Error'}
-                            </span>
-                        </div>
-                    ) : server.isTransferring || server.status ? (
-                        <div css={tw`flex-1 text-center`}>
-                            <span css={tw`bg-neutral-500 rounded px-2 py-1 text-neutral-100 text-xs`}>
-                                {server.isTransferring
-                                    ? 'Transferring'
-                                    : server.status === 'installing'
-                                    ? 'Installing'
-                                    : server.status === 'restoring_backup'
-                                    ? 'Restoring Backup'
-                                    : 'Unavailable'}
-                            </span>
-                        </div>
-                    ) : (
-                        <Spinner size={'small'} />
-                    )
-                ) : (
-                    <React.Fragment>
-                        <div css={tw`flex-1 ml-4 sm:block hidden`}>
-                            <div css={tw`flex justify-center`}>
-                                <Icon icon={faMicrochip} $alarm={alarms.cpu} />
-                                <IconDescription $alarm={alarms.cpu}>
-                                    {stats.cpuUsagePercent.toFixed(2)} %
-                                </IconDescription>
-                            </div>
-                            <p css={tw`text-xs text-neutral-600 text-center mt-1`}>of {cpuLimit}</p>
-                        </div>
-                        <div css={tw`flex-1 ml-4 sm:block hidden`}>
-                            <div css={tw`flex justify-center`}>
-                                <Icon icon={faMemory} $alarm={alarms.memory} />
-                                <IconDescription $alarm={alarms.memory}>
-                                    {bytesToString(stats.memoryUsageInBytes)}
-                                </IconDescription>
-                            </div>
-                            <p css={tw`text-xs text-neutral-600 text-center mt-1`}>of {memoryLimit}</p>
-                        </div>
-                        <div css={tw`flex-1 ml-4 sm:block hidden`}>
-                            <div css={tw`flex justify-center`}>
-                                <Icon icon={faHdd} $alarm={alarms.disk} />
-                                <IconDescription $alarm={alarms.disk}>
-                                    {bytesToString(stats.diskUsageInBytes)}
-                                </IconDescription>
-                            </div>
-                            <p css={tw`text-xs text-neutral-600 text-center mt-1`}>of {diskLimit}</p>
-                        </div>
-                    </React.Fragment>
+        <GlassCard to={`/server/${server.id}`} className={className}>
+            <div css={tw`min-w-0 text-right`}>
+                <p css={tw`text-lg font-bold text-zinc-100 break-words`}>{server.name}</p>
+                <p css={tw`mt-1 text-sm text-zinc-400`} dir={'ltr'} style={{ unicodeBidi: 'plaintext' }}>
+                    {defaultAlloc.map((allocation) => (
+                        <React.Fragment key={allocation.ip + allocation.port.toString()}>
+                            {allocation.alias || ip(allocation.ip)}:{allocation.port}
+                        </React.Fragment>
+                    ))}
+                </p>
+                {!!server.description && (
+                    <p css={tw`mt-1.5 text-xs text-zinc-500 break-words line-clamp-2`}>{server.description}</p>
                 )}
             </div>
-            <div className={'status-bar'} />
-        </StatusIndicatorBox>
+
+            <div css={tw`min-w-0 space-y-3 flex flex-col justify-center`}>
+                {showMiddleSpinner ? (
+                    <div css={tw`flex justify-center py-4`}>
+                        <Spinner size={'small'} />
+                    </div>
+                ) : showResourceBars ? (
+                    <>
+                        <div>
+                            <div css={tw`flex justify-between items-baseline gap-2 mb-1`}>
+                                <RowLabel $alarm={alarms.cpu}>מעבד</RowLabel>
+                                <span css={tw`text-xs text-zinc-300 tabular-nums`} dir={'ltr'}>
+                                    {stats.cpuUsagePercent.toFixed(1)}% / {cpuLimitLabel}
+                                </span>
+                            </div>
+                            <ThinBar $pct={cpuPctBar} $alarm={alarms.cpu} />
+                        </div>
+                        <div>
+                            <div css={tw`flex justify-between items-baseline gap-2 mb-1`}>
+                                <RowLabel $alarm={alarms.memory}>זיכרון</RowLabel>
+                                <span css={tw`text-xs text-zinc-300 tabular-nums`} dir={'ltr'}>
+                                    {bytesToString(stats.memoryUsageInBytes)} / {memoryLimitLabel}
+                                </span>
+                            </div>
+                            <ThinBar $pct={memoryPctBar} $alarm={alarms.memory} />
+                        </div>
+                        <div>
+                            <div css={tw`flex justify-between items-baseline gap-2 mb-1`}>
+                                <RowLabel $alarm={alarms.disk}>אחסון</RowLabel>
+                                <span css={tw`text-xs text-zinc-300 tabular-nums`} dir={'ltr'}>
+                                    {bytesToString(stats.diskUsageInBytes)} / {diskLimitLabel}
+                                </span>
+                            </div>
+                            <ThinBar $pct={diskPctBar} $alarm={alarms.disk} />
+                        </div>
+                    </>
+                ) : (
+                    <div css={tw`hidden lg:block min-h-[4.5rem]`} aria-hidden />
+                )}
+            </div>
+
+            <div css={tw`flex flex-col items-center gap-3 lg:items-end shrink-0`}>
+                {statusBlock()}
+                <ManageCue>ניהול</ManageCue>
+            </div>
+        </GlassCard>
     );
 };

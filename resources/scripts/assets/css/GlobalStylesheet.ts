@@ -14,8 +14,12 @@ export default createGlobalStyle`
     }
 
     body {
-        ${tw`font-sans bg-neutral-800 text-neutral-200`};
+        ${tw`font-sans text-neutral-200`};
         letter-spacing: 0.015em;
+        background-color: #050506;
+        background-image: linear-gradient(180deg, #0a0a0c 0%, #09090b 42%, #030304 100%);
+        background-attachment: fixed;
+        min-height: 100vh;
     }
 
     h1, h2, h3, h4, h5, h6 {

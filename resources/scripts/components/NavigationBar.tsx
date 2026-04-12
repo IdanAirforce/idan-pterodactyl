@@ -6,34 +6,57 @@ import { faCogs, faLayerGroup, faSignOutAlt } from '@fortawesome/free-solid-svg-
 import { useStoreState } from 'easy-peasy';
 import { ApplicationStore } from '@/state';
 import SearchContainer from '@/components/dashboard/search/SearchContainer';
-import tw, { theme } from 'twin.macro';
+import tw from 'twin.macro';
 import styled from 'styled-components/macro';
 import http from '@/api/http';
 import SpinnerOverlay from '@/components/elements/SpinnerOverlay';
 import Tooltip from '@/components/elements/tooltip/Tooltip';
 import Avatar from '@/components/Avatar';
 
-const RightNavigation = styled.div`
+const Shell = styled.header`
+    ${tw`w-full overflow-x-auto`};
+    background: rgba(9, 9, 11, 0.72);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(16px) saturate(1.15);
+    -webkit-backdrop-filter: blur(16px) saturate(1.15);
+`;
+
+const Inner = styled.div`
+    ${tw`mx-auto w-full flex items-center h-[3.5rem] max-w-6xl px-3 sm:px-5`};
+`;
+
+const Brand = styled(Link)`
+    ${tw`flex-1 no-underline transition-colors duration-150`};
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #f4f4f5;
+    letter-spacing: -0.02em;
+
+    &:hover {
+        color: #ffffff;
+    }
+`;
+
+const NavCluster = styled.div`
+    ${tw`flex h-full items-center gap-0.5 sm:gap-1`};
+
     & > a,
     & > button,
     & > .navigation-link {
-        ${tw`flex items-center h-full no-underline text-neutral-300 px-6 cursor-pointer transition-all duration-150`};
+        ${tw`flex items-center justify-center h-full min-w-[2.75rem] no-underline text-zinc-400 px-2 sm:px-3 cursor-pointer transition-all duration-150 rounded-lg border border-transparent`};
 
-        &:active,
         &:hover {
-            ${tw`text-neutral-100 bg-black`};
+            ${tw`text-zinc-100 bg-white/5 border-white/10`};
         }
 
-        &:active,
-        &:hover,
         &.active {
-            box-shadow: inset 0 -2px ${theme`colors.cyan.600`.toString()};
+            ${tw`text-zinc-50 bg-white/8 border-white/12`};
         }
     }
 `;
 
 export default () => {
-    const name = useStoreState((state: ApplicationStore) => state.settings.data!.name);
     const rootAdmin = useStoreState((state: ApplicationStore) => state.user.data!.rootAdmin);
     const [isLoggingOut, setIsLoggingOut] = useState(false);
 
@@ -46,47 +69,38 @@ export default () => {
     };
 
     return (
-        <div className={'w-full bg-neutral-900 shadow-md overflow-x-auto'}>
+        <Shell dir={'rtl'} lang={'he'}>
             <SpinnerOverlay visible={isLoggingOut} />
-            <div className={'mx-auto w-full flex items-center h-[3.5rem] max-w-[1200px]'}>
-                <div id={'logo'} className={'flex-1'}>
-                    <Link
-                        to={'/'}
-                        className={
-                            'text-2xl font-header font-medium px-4 no-underline text-neutral-200 hover:text-neutral-100 transition-colors duration-150'
-                        }
-                    >
-                        {name}
-                    </Link>
-                </div>
-                <RightNavigation className={'flex h-full items-center justify-center'}>
+            <Inner>
+                <Brand to={'/'}>איידן דב פאנל</Brand>
+                <NavCluster>
                     <SearchContainer />
-                    <Tooltip placement={'bottom'} content={'Dashboard'}>
+                    <Tooltip placement={'bottom'} content={'לוח בקרה'}>
                         <NavLink to={'/'} exact>
                             <FontAwesomeIcon icon={faLayerGroup} />
                         </NavLink>
                     </Tooltip>
                     {rootAdmin && (
-                        <Tooltip placement={'bottom'} content={'Admin'}>
+                        <Tooltip placement={'bottom'} content={'ניהול מערכת'}>
                             <a href={'/admin'} rel={'noreferrer'}>
                                 <FontAwesomeIcon icon={faCogs} />
                             </a>
                         </Tooltip>
                     )}
-                    <Tooltip placement={'bottom'} content={'Account Settings'}>
+                    <Tooltip placement={'bottom'} content={'הגדרות חשבון'}>
                         <NavLink to={'/account'}>
                             <span className={'flex items-center w-5 h-5'}>
                                 <Avatar.User />
                             </span>
                         </NavLink>
                     </Tooltip>
-                    <Tooltip placement={'bottom'} content={'Sign Out'}>
-                        <button onClick={onTriggerLogout}>
+                    <Tooltip placement={'bottom'} content={'התנתקות'}>
+                        <button type={'button'} onClick={onTriggerLogout}>
                             <FontAwesomeIcon icon={faSignOutAlt} />
                         </button>
                     </Tooltip>
-                </RightNavigation>
-            </div>
-        </div>
+                </NavCluster>
+            </Inner>
+        </Shell>
     );
 };

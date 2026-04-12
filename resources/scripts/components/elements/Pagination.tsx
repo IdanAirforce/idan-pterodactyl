@@ -24,7 +24,7 @@ const PageBtn = styled.button<{ $active?: boolean }>`
     ${tw`border-white/10 bg-neutral-900/50 backdrop-blur-md text-neutral-300`};
     ${(p) =>
         p.$active &&
-        tw`bg-primary-600/20 border-primary-500/30 text-neutral-100 shadow-lg shadow-black/40`};
+        tw`bg-primary-600/20 border-primary-500/30 text-neutral-100 shadow-lg`};
 
     &:hover:not(:disabled) {
         ${tw`border-white/20 text-neutral-100 bg-neutral-800/50`};

@@ -75,13 +75,13 @@ const StatusBadge = styled.span<{ $tone: 'green' | 'red' | 'yellow' | 'neutral' 
     ${tw`inline-flex items-center text-xs font-medium px-2.5 py-1 rounded-lg`};
     ${(p) =>
         p.$tone === 'green' &&
-        tw`bg-green-500/15 text-green-200 border border-green-400/25`}
+        tw`bg-green-500/10 text-green-200 border border-green-400/30`}
     ${(p) =>
         p.$tone === 'red' &&
-        tw`bg-red-500/15 text-red-200 border border-red-400/25`}
+        tw`bg-red-500/10 text-red-200 border border-red-400/30`}
     ${(p) =>
         p.$tone === 'yellow' &&
-        tw`bg-yellow-500/15 text-yellow-100 border border-yellow-400/25`}
+        tw`bg-yellow-500/10 text-yellow-100 border border-yellow-400/30`}
     ${(p) =>
         p.$tone === 'neutral' &&
         tw`bg-neutral-500/20 text-neutral-200 border border-white/10`}

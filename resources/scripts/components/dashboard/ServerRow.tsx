@@ -204,7 +204,7 @@ export default ({ server, className }: { server: Server; className?: string }) =
         <GlassCard to={`/server/${server.id}`} className={className}>
             <div css={tw`min-w-0 text-right`}>
                 <p css={tw`text-lg font-bold text-neutral-100 break-words`}>{server.name}</p>
-                <p css={tw`mt-1 block w-full text-end text-sm text-neutral-400`} dir={'ltr'} style={{ unicodeBidi: 'plaintext' }}>
+                <p css={tw`mt-1 block w-full text-right text-sm text-neutral-400`} dir={'ltr'} style={{ unicodeBidi: 'plaintext' }}>
                     {defaultAlloc.map((allocation) => (
                         <React.Fragment key={allocation.ip + allocation.port.toString()}>
                             {allocation.alias || ip(allocation.ip)}:{allocation.port}
@@ -226,7 +226,7 @@ export default ({ server, className }: { server: Server; className?: string }) =
                         <div>
                             <div css={tw`flex justify-between items-baseline gap-2 mb-1.5`}>
                                 <RowLabel $alarm={alarms.cpu}>מעבד</RowLabel>
-                                <span css={tw`text-xs text-neutral-300 tabular-nums shrink-0`} dir={'ltr'}>
+                                <span css={tw`text-xs text-neutral-300 tabular-nums flex-shrink-0`} dir={'ltr'}>
                                     {stats.cpuUsagePercent.toFixed(1)}% / {cpuLimitLabel}
                                 </span>
                             </div>
@@ -235,7 +235,7 @@ export default ({ server, className }: { server: Server; className?: string }) =
                         <div>
                             <div css={tw`flex justify-between items-baseline gap-2 mb-1.5`}>
                                 <RowLabel $alarm={alarms.memory}>זיכרון</RowLabel>
-                                <span css={tw`text-xs text-neutral-300 tabular-nums shrink-0`} dir={'ltr'}>
+                                <span css={tw`text-xs text-neutral-300 tabular-nums flex-shrink-0`} dir={'ltr'}>
                                     {bytesToString(stats.memoryUsageInBytes)} / {memoryLimitLabel}
                                 </span>
                             </div>
@@ -244,7 +244,7 @@ export default ({ server, className }: { server: Server; className?: string }) =
                         <div>
                             <div css={tw`flex justify-between items-baseline gap-2 mb-1.5`}>
                                 <RowLabel $alarm={alarms.disk}>אחסון</RowLabel>
-                                <span css={tw`text-xs text-neutral-300 tabular-nums shrink-0`} dir={'ltr'}>
+                                <span css={tw`text-xs text-neutral-300 tabular-nums flex-shrink-0`} dir={'ltr'}>
                                     {bytesToString(stats.diskUsageInBytes)} / {diskLimitLabel}
                                 </span>
                             </div>

@@ -82,29 +82,31 @@ export default () => {
 
     return (
         <PageContentBlock title={'השרתים שלי'} showFlashKey={'dashboard'}>
-            <div css={tw`flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end sm:gap-4 mb-6`}>
-                <h1 css={tw`text-2xl sm:text-3xl font-semibold text-neutral-100 tracking-tight text-right`}>
+            <div css={tw`mb-6`}>
+                <h1 css={tw`w-full text-2xl sm:text-3xl font-semibold text-neutral-100 tracking-tight text-right`}>
                     השרתים שלי
                 </h1>
                 {rootAdmin && (
-                    <ScopeSegmentTrack role={'group'} aria-label={'בחירת היקף רשימת שרתים'}>
-                        <ScopeSegmentBtn
-                            type={'button'}
-                            $active={!showOnlyAdmin}
-                            onClick={() => setShowOnlyAdmin(false)}
-                            aria-pressed={!showOnlyAdmin}
-                        >
-                            השרתים שלי
-                        </ScopeSegmentBtn>
-                        <ScopeSegmentBtn
-                            type={'button'}
-                            $active={showOnlyAdmin}
-                            onClick={() => setShowOnlyAdmin(true)}
-                            aria-pressed={showOnlyAdmin}
-                        >
-                            כל השרתים
-                        </ScopeSegmentBtn>
-                    </ScopeSegmentTrack>
+                    <div css={tw`mt-4 flex w-full justify-center`}>
+                        <ScopeSegmentTrack role={'group'} aria-label={'בחירת היקף רשימת שרתים'}>
+                            <ScopeSegmentBtn
+                                type={'button'}
+                                $active={!showOnlyAdmin}
+                                onClick={() => setShowOnlyAdmin(false)}
+                                aria-pressed={!showOnlyAdmin}
+                            >
+                                השרתים שלי
+                            </ScopeSegmentBtn>
+                            <ScopeSegmentBtn
+                                type={'button'}
+                                $active={showOnlyAdmin}
+                                onClick={() => setShowOnlyAdmin(true)}
+                                aria-pressed={showOnlyAdmin}
+                            >
+                                כל השרתים
+                            </ScopeSegmentBtn>
+                        </ScopeSegmentTrack>
+                    </div>
                 )}
             </div>
             {!servers ? (

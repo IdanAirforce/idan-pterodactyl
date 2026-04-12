@@ -12,6 +12,7 @@ const isAlarmState = (current: number, limit: number): boolean => limit > 0 && c
 const UNLIMITED_HE = 'ללא הגבלה';
 
 const GlassCard = styled(Link)`
+    direction: rtl;
     display: grid;
     grid-template-columns: 1fr;
     gap: 1rem;
@@ -35,7 +36,7 @@ const GlassCard = styled(Link)`
         background 0.2s ease;
 
     @media (min-width: 1024px) {
-        grid-template-columns: minmax(0, 1fr) minmax(0, 1.45fr) auto;
+        grid-template-columns: minmax(0, 1.15fr) minmax(0, 1.5fr) minmax(5.5rem, auto);
         gap: 1.25rem;
         padding: 1.1rem 1.35rem;
     }
@@ -60,7 +61,9 @@ const ThinBar = styled.div<{ $alarm?: boolean; $pct: number }>`
     &::after {
         content: '';
         position: absolute;
-        inset: 0 auto 0 0;
+        top: 0;
+        bottom: 0;
+        inset-inline-start: 0;
         width: ${(p) => Math.min(100, Math.max(0, p.$pct))}%;
         border-radius: 9999px;
         background: ${(p) =>
@@ -72,7 +75,7 @@ const ThinBar = styled.div<{ $alarm?: boolean; $pct: number }>`
 `;
 
 const StatusBadge = styled.span<{ $tone: 'green' | 'red' | 'yellow' | 'neutral' }>`
-    ${tw`inline-flex items-center text-xs font-medium px-2.5 py-1 rounded-lg`};
+    ${tw`inline-flex items-center justify-center text-2xs font-medium px-2 py-0.5 rounded-md whitespace-nowrap`};
     ${(p) =>
         p.$tone === 'green' &&
         tw`bg-green-500/10 text-green-200 border border-green-400/30`}
@@ -172,7 +175,7 @@ export default ({ server, className }: { server: Server; className?: string }) =
 
     const statusBlock = () => {
         if (isSuspended) {
-            return <StatusBadge $tone={'red'}>מושעה</StatusBadge>;
+            return <StatusBadge $tone={'yellow'}>מושעה</StatusBadge>;
         }
         if (!stats) {
             if (server.isTransferring) {
@@ -201,7 +204,7 @@ export default ({ server, className }: { server: Server; className?: string }) =
         <GlassCard to={`/server/${server.id}`} className={className}>
             <div css={tw`min-w-0 text-right`}>
                 <p css={tw`text-lg font-bold text-neutral-100 break-words`}>{server.name}</p>
-                <p css={tw`mt-1 text-sm text-neutral-400`} dir={'ltr'} style={{ unicodeBidi: 'plaintext' }}>
+                <p css={tw`mt-1 block w-full text-end text-sm text-neutral-400`} dir={'ltr'} style={{ unicodeBidi: 'plaintext' }}>
                     {defaultAlloc.map((allocation) => (
                         <React.Fragment key={allocation.ip + allocation.port.toString()}>
                             {allocation.alias || ip(allocation.ip)}:{allocation.port}
@@ -213,7 +216,7 @@ export default ({ server, className }: { server: Server; className?: string }) =
                 )}
             </div>
 
-            <div css={tw`min-w-0 space-y-3 flex flex-col justify-center`}>
+            <div css={tw`min-w-0 space-y-3.5 flex flex-col justify-center`}>
                 {showMiddleSpinner ? (
                     <div css={tw`flex justify-center py-4`}>
                         <Spinner size={'small'} />
@@ -221,27 +224,27 @@ export default ({ server, className }: { server: Server; className?: string }) =
                 ) : showResourceBars ? (
                     <>
                         <div>
-                            <div css={tw`flex justify-between items-baseline gap-2 mb-1`}>
+                            <div css={tw`flex justify-between items-baseline gap-2 mb-1.5`}>
                                 <RowLabel $alarm={alarms.cpu}>מעבד</RowLabel>
-                                <span css={tw`text-xs text-neutral-300 tabular-nums`} dir={'ltr'}>
+                                <span css={tw`text-xs text-neutral-300 tabular-nums shrink-0`} dir={'ltr'}>
                                     {stats.cpuUsagePercent.toFixed(1)}% / {cpuLimitLabel}
                                 </span>
                             </div>
                             <ThinBar $pct={cpuPctBar} $alarm={alarms.cpu} />
                         </div>
                         <div>
-                            <div css={tw`flex justify-between items-baseline gap-2 mb-1`}>
+                            <div css={tw`flex justify-between items-baseline gap-2 mb-1.5`}>
                                 <RowLabel $alarm={alarms.memory}>זיכרון</RowLabel>
-                                <span css={tw`text-xs text-neutral-300 tabular-nums`} dir={'ltr'}>
+                                <span css={tw`text-xs text-neutral-300 tabular-nums shrink-0`} dir={'ltr'}>
                                     {bytesToString(stats.memoryUsageInBytes)} / {memoryLimitLabel}
                                 </span>
                             </div>
                             <ThinBar $pct={memoryPctBar} $alarm={alarms.memory} />
                         </div>
                         <div>
-                            <div css={tw`flex justify-between items-baseline gap-2 mb-1`}>
+                            <div css={tw`flex justify-between items-baseline gap-2 mb-1.5`}>
                                 <RowLabel $alarm={alarms.disk}>אחסון</RowLabel>
-                                <span css={tw`text-xs text-neutral-300 tabular-nums`} dir={'ltr'}>
+                                <span css={tw`text-xs text-neutral-300 tabular-nums shrink-0`} dir={'ltr'}>
                                     {bytesToString(stats.diskUsageInBytes)} / {diskLimitLabel}
                                 </span>
                             </div>
@@ -253,7 +256,7 @@ export default ({ server, className }: { server: Server; className?: string }) =
                 )}
             </div>
 
-            <div css={tw`flex flex-col items-center justify-center gap-2 lg:items-end flex-shrink-0`}>
+            <div css={tw`flex flex-shrink-0 items-center justify-center`}>
                 {statusBlock()}
             </div>
         </GlassCard>

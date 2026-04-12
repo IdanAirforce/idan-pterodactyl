@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCogs, faLayerGroup, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import { useStoreState } from 'easy-peasy';
@@ -24,18 +24,6 @@ const Shell = styled.header`
 
 const Inner = styled.div`
     ${tw`mx-auto w-full flex items-center h-[3.5rem] max-w-6xl px-3 sm:px-5`};
-`;
-
-const Brand = styled(Link)`
-    ${tw`flex-1 no-underline transition-colors duration-150`};
-    font-size: 1.125rem;
-    font-weight: 600;
-    color: #f4f4f5;
-    letter-spacing: -0.02em;
-
-    &:hover {
-        color: #ffffff;
-    }
 `;
 
 const NavCluster = styled.div`
@@ -72,7 +60,7 @@ export default () => {
         <Shell dir={'rtl'} lang={'he'}>
             <SpinnerOverlay visible={isLoggingOut} />
             <Inner>
-                <Brand to={'/'}>איידן דב פאנל</Brand>
+                <div css={tw`flex-1 min-w-0`} aria-hidden />
                 <NavCluster>
                     <SearchContainer />
                     <Tooltip placement={'bottom'} content={'לוח בקרה'}>

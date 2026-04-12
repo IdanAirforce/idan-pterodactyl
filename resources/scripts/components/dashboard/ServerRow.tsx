@@ -87,24 +87,6 @@ const StatusBadge = styled.span<{ $tone: 'green' | 'red' | 'yellow' | 'neutral' 
         tw`bg-neutral-500/20 text-neutral-200 border border-white/10`}
 `;
 
-const ManageCue = styled.span`
-    ${tw`inline-flex items-center justify-center text-sm font-semibold px-4 py-2 rounded-lg`};
-    border: 1px solid rgba(96, 165, 250, 0.35);
-    background: linear-gradient(180deg, rgba(37, 99, 235, 0.55) 0%, rgba(29, 78, 216, 0.45) 100%);
-    color: #f8fafc;
-    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1) inset, 0 8px 24px rgba(37, 99, 235, 0.2);
-    transition:
-        border-color 0.15s ease,
-        box-shadow 0.15s ease,
-        background 0.15s ease;
-
-    ${GlassCard}:hover & {
-        border-color: rgba(147, 197, 253, 0.45);
-        box-shadow: 0 1px 0 rgba(255, 255, 255, 0.12) inset, 0 10px 28px rgba(59, 130, 246, 0.28);
-        background: linear-gradient(180deg, rgba(59, 130, 246, 0.65) 0%, rgba(37, 99, 235, 0.5) 100%);
-    }
-`;
-
 const RowLabel = styled.span<{ $alarm?: boolean }>`
     ${tw`text-2xs uppercase tracking-wide`};
     ${(p) => (p.$alarm ? tw`text-red-200` : tw`text-neutral-500`)};
@@ -271,9 +253,8 @@ export default ({ server, className }: { server: Server; className?: string }) =
                 )}
             </div>
 
-            <div css={tw`flex flex-col items-center gap-3 lg:items-end flex-shrink-0`}>
+            <div css={tw`flex flex-col items-center justify-center gap-2 lg:items-end flex-shrink-0`}>
                 {statusBlock()}
-                <ManageCue>ניהול</ManageCue>
             </div>
         </GlassCard>
     );

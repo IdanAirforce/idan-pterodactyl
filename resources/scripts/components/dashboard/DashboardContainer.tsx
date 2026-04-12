@@ -7,12 +7,40 @@ import PageContentBlock from '@/components/elements/PageContentBlock';
 import useFlash from '@/plugins/useFlash';
 import { useStoreState } from 'easy-peasy';
 import { usePersistedState } from '@/plugins/usePersistedState';
-import Switch from '@/components/elements/Switch';
 import tw from 'twin.macro';
+import styled from 'styled-components/macro';
 import useSWR from 'swr';
 import { PaginatedResult } from '@/api/http';
 import Pagination from '@/components/elements/Pagination';
 import { useLocation } from 'react-router-dom';
+
+const ScopeSegmentTrack = styled.div`
+    display: inline-flex;
+    align-items: stretch;
+    padding: 3px;
+    gap: 2px;
+    border-radius: 10px;
+    background: rgba(39, 39, 42, 0.65);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+`;
+
+const ScopeSegmentBtn = styled.button<{ $active: boolean }>`
+    ${tw`relative rounded-lg border text-sm font-medium transition-all duration-150 whitespace-nowrap`};
+    padding: 0.4rem 0.75rem;
+
+    ${(p) =>
+        p.$active
+            ? tw`text-neutral-100 bg-primary-600/20 border-primary-500/30 shadow-sm`
+            : tw`text-neutral-400 border-transparent hover:text-neutral-200 hover:bg-white/5`};
+
+    &:focus-visible {
+        outline: 2px solid rgba(59, 130, 246, 0.45);
+        outline-offset: 1px;
+    }
+`;
 
 export default () => {
     const { search } = useLocation();
@@ -54,21 +82,31 @@ export default () => {
 
     return (
         <PageContentBlock title={'השרתים שלי'} showFlashKey={'dashboard'}>
-            <h1 css={tw`text-2xl sm:text-3xl font-semibold text-neutral-100 tracking-tight mb-6 text-right`}>
-                השרתים שלי
-            </h1>
-            {rootAdmin && (
-                <div css={tw`mb-5 flex flex-row-reverse flex-wrap items-center justify-end gap-3`}>
-                    <Switch
-                        name={'show_all_servers'}
-                        defaultChecked={showOnlyAdmin}
-                        onChange={() => setShowOnlyAdmin((s) => !s)}
-                    />
-                    <p css={tw`text-sm text-neutral-400 text-right`}>
-                        {showOnlyAdmin ? 'מציג שרתים של משתמשים אחרים' : 'מציג את השרתים שלך'}
-                    </p>
-                </div>
-            )}
+            <div css={tw`flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end sm:gap-4 mb-6`}>
+                <h1 css={tw`text-2xl sm:text-3xl font-semibold text-neutral-100 tracking-tight text-right`}>
+                    השרתים שלי
+                </h1>
+                {rootAdmin && (
+                    <ScopeSegmentTrack role={'group'} aria-label={'בחירת היקף רשימת שרתים'}>
+                        <ScopeSegmentBtn
+                            type={'button'}
+                            $active={!showOnlyAdmin}
+                            onClick={() => setShowOnlyAdmin(false)}
+                            aria-pressed={!showOnlyAdmin}
+                        >
+                            השרתים שלי
+                        </ScopeSegmentBtn>
+                        <ScopeSegmentBtn
+                            type={'button'}
+                            $active={showOnlyAdmin}
+                            onClick={() => setShowOnlyAdmin(true)}
+                            aria-pressed={showOnlyAdmin}
+                        >
+                            כל השרתים
+                        </ScopeSegmentBtn>
+                    </ScopeSegmentTrack>
+                )}
+            </div>
             {!servers ? (
                 <Spinner centered size={'large'} />
             ) : (

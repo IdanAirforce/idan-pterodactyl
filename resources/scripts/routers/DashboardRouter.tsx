@@ -14,7 +14,7 @@ export default () => {
     const location = useLocation();
 
     return (
-        <div dir={'rtl'} lang={'he'} css={tw`relative min-h-screen text-zinc-200`}>
+        <div dir={'rtl'} lang={'he'} css={tw`relative min-h-screen text-neutral-200`}>
             <div
                 className={
                     'pointer-events-none fixed inset-0 -z-10 bg-gradient-to-b from-[#0a0a0c] via-[#09090b] to-[#030304]'

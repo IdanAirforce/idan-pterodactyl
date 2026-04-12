@@ -14,15 +14,15 @@ const SubNavigation = styled.div`
 
         & > a,
         & > div {
-            ${tw`inline-block py-3 px-3 sm:px-4 text-zinc-400 no-underline whitespace-nowrap transition-all duration-150 rounded-lg border border-transparent`};
+            ${tw`inline-block py-3 px-3 sm:px-4 text-neutral-400 no-underline whitespace-nowrap transition-all duration-150 rounded-lg border border-transparent`};
 
             &:hover {
-                ${tw`text-zinc-100 bg-white/5 border-white/10`};
+                ${tw`text-neutral-100 bg-white/5 border-white/10`};
             }
 
             &:active,
             &.active {
-                ${tw`text-zinc-50 bg-white/8 border-white/12`};
+                ${tw`text-neutral-100 bg-white/10 border-white/10`};
                 box-shadow: inset 0 -2px rgba(59, 130, 246, 0.45);
             }
         }

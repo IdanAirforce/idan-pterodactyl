@@ -21,13 +21,13 @@ interface Props<T> {
 
 const PageBtn = styled.button<{ $active?: boolean }>`
     ${tw`p-0 w-10 h-10 rounded-lg border text-sm font-medium transition-all duration-150`};
-    ${tw`border-white/10 bg-zinc-900/50 backdrop-blur-md text-zinc-300`};
+    ${tw`border-white/10 bg-neutral-900/50 backdrop-blur-md text-neutral-300`};
     ${(p) =>
         p.$active &&
-        tw`bg-blue-600/20 border-blue-500/35 text-zinc-50 shadow-lg shadow-blue-950/40`};
+        tw`bg-primary-600/20 border-primary-500/30 text-neutral-100 shadow-lg shadow-black/40`};
 
     &:hover:not(:disabled) {
-        ${tw`border-white/18 text-zinc-50 bg-zinc-800/55`};
+        ${tw`border-white/20 text-neutral-100 bg-neutral-800/50`};
     }
 
     &:not(:last-of-type) {

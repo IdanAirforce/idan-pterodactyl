@@ -140,9 +140,9 @@ export default ({ ...props }: Props) => {
                                     onClick={() => props.onDismissed()}
                                 >
                                     <div css={tw`flex-1 min-w-0 text-right`}>
-                                        <p css={tw`text-sm text-zinc-100 font-medium`}>{server.name}</p>
+                                        <p css={tw`text-sm text-neutral-100 font-medium`}>{server.name}</p>
                                         <p
-                                            css={tw`mt-1 text-xs text-zinc-400 font-mono`}
+                                            css={tw`mt-1 text-xs text-neutral-400 font-mono`}
                                             dir={'ltr'}
                                             style={{ unicodeBidi: 'plaintext' }}
                                         >
@@ -157,7 +157,7 @@ export default ({ ...props }: Props) => {
                                     </div>
                                     <div css={tw`flex-none`}>
                                         <span
-                                            css={tw`text-2xs py-1 px-2 rounded-lg border border-white/10 bg-white/5 text-zinc-300`}
+                                            css={tw`text-2xs py-1 px-2 rounded-lg border border-white/10 bg-white/5 text-neutral-300`}
                                         >
                                             {server.node}
                                         </span>

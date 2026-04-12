@@ -44,14 +44,14 @@ const NavCluster = styled.div`
     & > a,
     & > button,
     & > .navigation-link {
-        ${tw`flex items-center justify-center h-full min-w-[2.75rem] no-underline text-zinc-400 px-2 sm:px-3 cursor-pointer transition-all duration-150 rounded-lg border border-transparent`};
+        ${tw`flex items-center justify-center h-full min-w-[2.75rem] no-underline text-neutral-400 px-2 sm:px-3 cursor-pointer transition-all duration-150 rounded-lg border border-transparent`};
 
         &:hover {
-            ${tw`text-zinc-100 bg-white/5 border-white/10`};
+            ${tw`text-neutral-100 bg-white/5 border-white/10`};
         }
 
         &.active {
-            ${tw`text-zinc-50 bg-white/8 border-white/12`};
+            ${tw`text-neutral-100 bg-white/10 border-white/10`};
         }
     }
 `;

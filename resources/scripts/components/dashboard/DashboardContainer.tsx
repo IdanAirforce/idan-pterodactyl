@@ -54,7 +54,7 @@ export default () => {
 
     return (
         <PageContentBlock title={'השרתים שלי'} showFlashKey={'dashboard'}>
-            <h1 css={tw`text-2xl sm:text-3xl font-semibold text-zinc-100 tracking-tight mb-6 text-right`}>
+            <h1 css={tw`text-2xl sm:text-3xl font-semibold text-neutral-100 tracking-tight mb-6 text-right`}>
                 השרתים שלי
             </h1>
             {rootAdmin && (
@@ -64,7 +64,7 @@ export default () => {
                         defaultChecked={showOnlyAdmin}
                         onChange={() => setShowOnlyAdmin((s) => !s)}
                     />
-                    <p css={tw`text-sm text-zinc-400 text-right`}>
+                    <p css={tw`text-sm text-neutral-400 text-right`}>
                         {showOnlyAdmin ? 'מציג שרתים של משתמשים אחרים' : 'מציג את השרתים שלך'}
                     </p>
                 </div>
@@ -81,7 +81,7 @@ export default () => {
                                 ))}
                             </div>
                         ) : (
-                            <p css={tw`text-center text-sm text-zinc-500 py-8`}>
+                            <p css={tw`text-center text-sm text-neutral-500 py-8`}>
                                 {showOnlyAdmin ? 'אין שרתים נוספים להצגה.' : 'אין שרתים המקושרים לחשבון שלך.'}
                             </p>
                         )

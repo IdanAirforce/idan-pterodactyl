@@ -75,16 +75,16 @@ const StatusBadge = styled.span<{ $tone: 'green' | 'red' | 'yellow' | 'neutral' 
     ${tw`inline-flex items-center text-xs font-medium px-2.5 py-1 rounded-lg`};
     ${(p) =>
         p.$tone === 'green' &&
-        tw`bg-emerald-500/15 text-emerald-200 border border-emerald-400/25`}
+        tw`bg-green-500/15 text-green-200 border border-green-400/25`}
     ${(p) =>
         p.$tone === 'red' &&
         tw`bg-red-500/15 text-red-200 border border-red-400/25`}
     ${(p) =>
         p.$tone === 'yellow' &&
-        tw`bg-amber-500/15 text-amber-100 border border-amber-400/25`}
+        tw`bg-yellow-500/15 text-yellow-100 border border-yellow-400/25`}
     ${(p) =>
         p.$tone === 'neutral' &&
-        tw`bg-zinc-500/20 text-zinc-200 border border-white/10`}
+        tw`bg-neutral-500/20 text-neutral-200 border border-white/10`}
 `;
 
 const ManageCue = styled.span`
@@ -107,7 +107,7 @@ const ManageCue = styled.span`
 
 const RowLabel = styled.span<{ $alarm?: boolean }>`
     ${tw`text-2xs uppercase tracking-wide`};
-    ${(p) => (p.$alarm ? tw`text-red-200` : tw`text-zinc-500`)};
+    ${(p) => (p.$alarm ? tw`text-red-200` : tw`text-neutral-500`)};
 `;
 
 type Timer = ReturnType<typeof setInterval>;
@@ -218,8 +218,8 @@ export default ({ server, className }: { server: Server; className?: string }) =
     return (
         <GlassCard to={`/server/${server.id}`} className={className}>
             <div css={tw`min-w-0 text-right`}>
-                <p css={tw`text-lg font-bold text-zinc-100 break-words`}>{server.name}</p>
-                <p css={tw`mt-1 text-sm text-zinc-400`} dir={'ltr'} style={{ unicodeBidi: 'plaintext' }}>
+                <p css={tw`text-lg font-bold text-neutral-100 break-words`}>{server.name}</p>
+                <p css={tw`mt-1 text-sm text-neutral-400`} dir={'ltr'} style={{ unicodeBidi: 'plaintext' }}>
                     {defaultAlloc.map((allocation) => (
                         <React.Fragment key={allocation.ip + allocation.port.toString()}>
                             {allocation.alias || ip(allocation.ip)}:{allocation.port}
@@ -227,7 +227,7 @@ export default ({ server, className }: { server: Server; className?: string }) =
                     ))}
                 </p>
                 {!!server.description && (
-                    <p css={tw`mt-1.5 text-xs text-zinc-500 break-words line-clamp-2`}>{server.description}</p>
+                    <p css={tw`mt-1.5 text-xs text-neutral-500 break-words line-clamp-2`}>{server.description}</p>
                 )}
             </div>
 
@@ -241,7 +241,7 @@ export default ({ server, className }: { server: Server; className?: string }) =
                         <div>
                             <div css={tw`flex justify-between items-baseline gap-2 mb-1`}>
                                 <RowLabel $alarm={alarms.cpu}>מעבד</RowLabel>
-                                <span css={tw`text-xs text-zinc-300 tabular-nums`} dir={'ltr'}>
+                                <span css={tw`text-xs text-neutral-300 tabular-nums`} dir={'ltr'}>
                                     {stats.cpuUsagePercent.toFixed(1)}% / {cpuLimitLabel}
                                 </span>
                             </div>
@@ -250,7 +250,7 @@ export default ({ server, className }: { server: Server; className?: string }) =
                         <div>
                             <div css={tw`flex justify-between items-baseline gap-2 mb-1`}>
                                 <RowLabel $alarm={alarms.memory}>זיכרון</RowLabel>
-                                <span css={tw`text-xs text-zinc-300 tabular-nums`} dir={'ltr'}>
+                                <span css={tw`text-xs text-neutral-300 tabular-nums`} dir={'ltr'}>
                                     {bytesToString(stats.memoryUsageInBytes)} / {memoryLimitLabel}
                                 </span>
                             </div>
@@ -259,7 +259,7 @@ export default ({ server, className }: { server: Server; className?: string }) =
                         <div>
                             <div css={tw`flex justify-between items-baseline gap-2 mb-1`}>
                                 <RowLabel $alarm={alarms.disk}>אחסון</RowLabel>
-                                <span css={tw`text-xs text-zinc-300 tabular-nums`} dir={'ltr'}>
+                                <span css={tw`text-xs text-neutral-300 tabular-nums`} dir={'ltr'}>
                                     {bytesToString(stats.diskUsageInBytes)} / {diskLimitLabel}
                                 </span>
                             </div>

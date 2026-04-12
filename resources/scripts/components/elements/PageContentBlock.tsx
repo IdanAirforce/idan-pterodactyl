@@ -25,12 +25,12 @@ const PageContentBlock: React.FC<PageContentBlockProps> = ({ title, showFlashKey
                     {children}
                 </ContentContainer>
                 <ContentContainer css={tw`mb-6`}>
-                    <p css={tw`text-center text-zinc-600 text-2xs`}>
+                    <p css={tw`text-center text-neutral-600 text-2xs`}>
                         <a
                             rel={'noopener nofollow noreferrer'}
                             href={'https://pterodactyl.io'}
                             target={'_blank'}
-                            css={tw`no-underline text-zinc-600 hover:text-zinc-400 transition-colors`}
+                            css={tw`no-underline text-neutral-600 hover:text-neutral-400 transition-colors`}
                         >
                             Pterodactyl&reg;
                         </a>
